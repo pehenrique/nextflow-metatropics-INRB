@@ -1,0 +1,9 @@
+input: /data/Daan/Projects/Input/mpox.csv
+outdir: /data/Daan/Projects/Output
+fasta: /data/Daan/DB/Human_Genome/chm13v2.0.fa
+dbmeta: /data/Daan/DB/MetamapsDB_010224
+minLength: 200
+pair: true
+front: 18
+tail: 18
+minVirus: 0.01
