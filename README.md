@@ -2,7 +2,9 @@
 
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git # downloads pipelines
 sudo apt-get install git-lfs # download git-lfs (if not present on your environment)
-git lfs pull --include "Databases/Human/Human.zip" 
+git lfs pull --include "Databases/Human.zip" 
+unzip Databases/Human.zip
+unzip Databases/ViralRefseq.zip
 
 # Alternatively you can download both Human and ViralRefSeq database from
 # 1) Download Human Database
