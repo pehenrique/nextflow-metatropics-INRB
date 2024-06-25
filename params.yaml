@@ -7,6 +7,6 @@ pair: true
 front: 18
 tail: 18
 minVirus: 0.01
-quality: 30
+quality: 20
 depth: 5
 agreement: 0.7
