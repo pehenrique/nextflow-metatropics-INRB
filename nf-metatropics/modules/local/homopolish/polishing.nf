@@ -9,7 +9,7 @@ process HOMOPOLISH_POLISHING {
     container "$projectDir/images/homopolish.sif"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/homopolish%3A0.4.1--pyhdfd78af_1':
-        'staphb/homopolish:0.4.1' }"
+        'daanjansen94/homopolish' }"
 
     input:
     tuple val(meta), path(consensus), path(reffasta)
