@@ -6,7 +6,7 @@ process KRONA_KTIMPORTTAXONOMY {
     conda "bioconda::krona=2.8"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/krona:2.8--pl5262hdfd78af_2' :
-        'biocontainers/krona:2.8--pl5262hdfd78af_2' }"
+        'nanozoo/krona:2.7.1--e7615f7' }"
 
     input:
     tuple val(meta), path(report)

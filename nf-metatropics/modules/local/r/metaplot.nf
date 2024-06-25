@@ -24,10 +24,9 @@ process R_METAPLOT {
     //               For Conda, the build (i.e. "h9402c20_2") must be EXCLUDED to support installation on different operating systems.
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     container "$projectDir/images/R_plot.sif"
-    //conda "YOUR-TOOL-HERE"
-    //container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-    //    'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
-    //    'quay.io/biocontainers/YOUR-TOOL-HERE' }"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/YOUR-TOOL-HERE':
+        'daanjansen94/nf_r_plots:latest' }"
 
     input:
     tuple val(meta), path(classification), path(classlengh), path(classcov), path(classtotal)

@@ -7,10 +7,9 @@ process HOMOPOLISH_POLISHING {
     //               For Conda, the build (i.e. "h9402c20_2") must be EXCLUDED to support installation on different operating systems.
     // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     container "$projectDir/images/homopolish.sif"
-    //conda "bioconda::homopolish=0.4.1"
-    //container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-    //    'https://depot.galaxyproject.org/singularity/homopolish%3A0.4.1--pyhdfd78af_1':
-    //    'https://quay.io/repository/biocontainers/homopolish' }"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/homopolish%3A0.4.1--pyhdfd78af_1':
+        'staphb/homopolish:0.4.1' }"
 
     input:
     tuple val(meta), path(consensus), path(reffasta)

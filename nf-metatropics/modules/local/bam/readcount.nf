@@ -26,7 +26,7 @@ process BAM_READCOUNT {
     conda "bioconda::bam-readcount=0.8"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/bam-readcount%3A0.8--py36pl5.22.0_3':
-        'quay.io/biocontainers/YOUR-TOOL-HERE' }"
+        'mgibio/bam-readcount-cwl:0.7.4' }"
 
     input:
     // TODO nf-core: Where applicable all sample-specific information e.g. "id", "single_end", "read_group"

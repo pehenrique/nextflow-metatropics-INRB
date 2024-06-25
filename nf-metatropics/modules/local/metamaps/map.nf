@@ -21,10 +21,10 @@ process METAMAPS_MAP {
     label 'process_high'
 
     container "$projectDir/images/metamaps.sif"
-    //conda "bioconda::metamaps=0.1.98102e9"
-    //container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-    //    'https://depot.galaxyproject.org/singularity/metamaps:0.1.98102e9--h176a8bc_0':
-    //    'quay.io/biocontainers/metamaps:0.1.98102e9--h176a8bc_0' }"
+    conda "bioconda::metamaps=0.1.98102e9"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/metamaps:0.1.98102e9--h176a8bc_0':
+        'nanozoo/metamaps:latest' }"
 
     input:
     tuple val(meta), path(input)

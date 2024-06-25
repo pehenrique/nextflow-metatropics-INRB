@@ -471,12 +471,12 @@ workflow METATROPICS {
     ch_multiqc_files = ch_multiqc_files.mix(NANOPLOT.out.txt.collect{it[1]}.ifEmpty([]))
 
    //MULTIQC (
-   //     ch_multiqc_files.collect(),
-   //     ch_multiqc_config.toList(),
-   //     ch_multiqc_custom_config.toList(),
-   //     ch_multiqc_logo.toList()
-   // )
-    //multiqc_report = MULTIQC.out.report.toList()
+      //ch_multiqc_files.collect(),
+      //ch_multiqc_config.toList(),
+      //ch_multiqc_custom_config.toList(),
+      //ch_multiqc_logo.toList()
+    //)
+   //multiqc_report = MULTIQC.out.report.toList()
 }
 
 /*
