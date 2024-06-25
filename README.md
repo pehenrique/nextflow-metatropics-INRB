@@ -13,3 +13,6 @@ https://zenodo.org/uploads/12518452
 
 # 2) Downlaod Viral Refseq Datase for Metamaps
 https://zenodo.org/records/12518358
+
+# Run pipeline
+nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
