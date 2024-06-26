@@ -320,7 +320,6 @@ workflow METATROPICS {
         )
     }
 
-
     SAMTOOLS_COVERAGE(
         MEDAKA.out.bamfiles
     )
