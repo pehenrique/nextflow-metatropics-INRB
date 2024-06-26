@@ -9,7 +9,13 @@ process FINAL_REPORT {
 
     script:
     """
-    echo -e "Sample\tAccession\tTaxID\tVirusName\tMappedReads\tFractionMappedReads\tAbundance\tCoverage\tDepthAverage\tConsensusCov\tN_content\tMedianReadIdentities\tMeanReadLength\tMeanBaseQuality" > all.final_report.tsv
-    cat *.sdepth.tsv |  grep -v VirusName >> all.final_report.tsv
+    echo -e "Sample\tAccession number\tVirus\tReads\tVertical coverage\tHorizontal coverage\tRead identity\tRead length\tBase quality" > all.final_report.tsv
+    cat *.sdepth.tsv | grep -v VirusName | awk -F'\\t' '{
+        gsub(/_T1/, "", \$1)
+        gsub(/"/, "", \$1)
+        gsub(/"/, "", \$2)
+        gsub(/"/, "", \$4)
+        print \$1"\\t"\$2"\\t"\$4"\\t"\$5"\\t"\$9"\\t"\$10"\\t"\$12"\\t"\$13"\\t"\$14
+    }' >> all.final_report.tsv
     """
 }
