@@ -68,6 +68,7 @@ include { REF_FASTA                   } from '../modules/local/ref_fasta'
 include { SEQTK_SUBSEQ                } from '../modules/nf-core/seqtk/subseq/main'
 include { REFFIX_FASTA                } from '../modules/local/reffix_fasta'
 include { MEDAKA                      } from '../modules/nf-core/medaka/main'
+include { RCOVERAGE                   } from '../modules/local/rcoverage/rcoverage'
 include { SAMTOOLS_COVERAGE           } from '../modules/nf-core/samtools/coverage/main'
 include { IVAR_CONSENSUS              } from '../modules/nf-core/ivar/consensus/main'
 include { HOMOPOLISH_POLISHING        } from '../modules/local/homopolish/polishing'
@@ -244,7 +245,7 @@ workflow METATROPICS {
         [[id: meta.id, single_end: meta.single_end], [files]]  // Single file case
     } else {
         [[id: meta.id, single_end: meta.single_end], files]    // Multiple files case
-    	}
+	}
 	}
 
 	fixiseqref_ch = REF_FASTA.out.seqref.map { entry ->
@@ -255,7 +256,7 @@ workflow METATROPICS {
         [[id: meta.id, single_end: meta.single_end], [files]]  // Single file case
     } else {
         [[id: meta.id, single_end: meta.single_end], files]    // Multiple files case
-    	}
+	}
 	}
 
 	fixingallreads_ch = REF_FASTA.out.allreads.map { entry ->
@@ -266,7 +267,7 @@ workflow METATROPICS {
         [[id: meta.id, single_end: meta.single_end], [files]]  // Single file case
     } else {
         [[id: meta.id, single_end: meta.single_end], files]    // Multiple files case
-    	}
+	}
 	}
 
 	// FlatMap function for headers
@@ -304,30 +305,25 @@ workflow METATROPICS {
     REFFIX_FASTA(
         fasta_ch
     )
-    //REFFIX_FASTA.out.fixedseqref.view()
 
-
-    //fastq_ch.join(headers_ch).view()
     SEQTK_SUBSEQ(
         fastq_ch.join(headers_ch)
     )
 
-    //SEQTK_SUBSEQ.out.sequences.view()
-
-    //SEQTK_SUBSEQ.out.sequences.join(REFFIX_FASTA.out.fixedseqref).view()
     MEDAKA(
         SEQTK_SUBSEQ.out.sequences.join(REFFIX_FASTA.out.fixedseqref)
     )
 
-    //MEDAKA.out.assembly.view()
+    if (params.rcoverage_figure) {
+        RCOVERAGE(
+            MEDAKA.out.coveragefiles.collect()
+        )
+    }
+
 
     SAMTOOLS_COVERAGE(
         MEDAKA.out.bamfiles
     )
-
-    //SAMTOOLS_COVERAGE.out.coverage.view()
-
-    //MEDAKA.out.bamfiles.join(REFFIX_FASTA.out.fixedseqref).view()
 
     savempileup = false
     IVAR_CONSENSUS(
@@ -335,15 +331,10 @@ workflow METATROPICS {
         savempileup
     )
 
-    //IVAR_CONSENSUS.out.fasta.view()
-
-    //IVAR_CONSENSUS.out.fasta.join(REFFIX_FASTA.out.fixedseqref).view()
     HOMOPOLISH_POLISHING(
         IVAR_CONSENSUS.out.fasta.join(REFFIX_FASTA.out.fixedseqref)
     )
 
-    //HOMOPOLISH_POLISHING.out.polishconsensus.view()
-    //HOMOPOLISH_POLISHING.out.polishconsensus.join(REFFIX_FASTA.out.fixedseqref).last().view()
     group_virus_and_ref_ch = (HOMOPOLISH_POLISHING.out.polishconsensus).map { entry ->
         def id = entry[0].id
         def singleEnd = entry[0].single_end

@@ -14,6 +14,7 @@ process MEDAKA {
     tuple val(meta), path("*.vcf"), emit: assembly
     tuple val(meta), path("*.bam"), path("*.bai"), emit: bamfiles
     path "versions.yml"             , emit: versions
+    path "*.coverage.txt"           , emit: coveragefiles
 
     when:
     task.ext.when == null || task.ext.when
@@ -34,6 +35,7 @@ process MEDAKA {
     mv calls_to_ref.bam.bai ${prefix}.sorted.bam.bai
     rm medaka.vcf
 
+    samtools depth -a ${prefix}.sorted.bam > ${prefix}.sorted.bam.coverage.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

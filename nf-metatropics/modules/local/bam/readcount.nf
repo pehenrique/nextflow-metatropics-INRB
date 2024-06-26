@@ -59,7 +59,7 @@ process BAM_READCOUNT {
     // TODO nf-core: Please replace the example samtools command below with your module's command
     // TODO nf-core: Please indent the command appropriately (4 spaces!!) to help with readability ;)
     """
-    bam-readcount -w1 -b30 -f $ref $bam > ${prefix}.bamcount.out 2> ${prefix}.bamcount.error
+    bam-readcount -w1 -b20 -f $ref $bam > ${prefix}.bamcount.out 2> ${prefix}.bamcount.error
     """
     //cat <<-END_VERSIONS > versions.yml
     //"${task.process}":
