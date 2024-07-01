@@ -80,6 +80,7 @@ include { SNIPIT_SNPPLOT              } from '../modules/local/snipit/snpplot'
 include { SNP_COMPARE                 } from '../modules/local/snp/compare'
 include { MAFFT_ALIGN as MAFFT_TWO    } from '../modules/local/mafft/align'
 include { SNIPIT_SNPPLOT as SNIPIT_TWO } from '../modules/local/snipit/snpplot'
+include { CLEANUP		      } from '../modules/local/cleanup/cleanup.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -369,57 +370,6 @@ workflow METATROPICS {
     BAM_READCOUNT(
         MEDAKA.out.bamfiles.join(REFFIX_FASTA.out.fixedseqref)
     )
-    //ch_versions = ch_versions.mix(BAM_READCOUNT.out.versions.first())
-    //BAM_READCOUNT.out.bamcount.view()
-
-    //MAFFT_ALIGN(
-    //   group_virus_and_ref_ch,
-    //   params.outdir + "/reffix"
-    //)
-    //MAFFT_ALIGN.out.aln.view()
-
-
-    //SNIPIT_SNPPLOT(
-    //    MAFFT_ALIGN.out.aln
-    //)
-    //SNIPIT_SNPPLOT.out.csv.view()
-
-    //Combine 4 channel necessary to run the comparing process. First it was necessary to remove the sample id and single end meta info
-    //to combine the channel only with virus meta info. Later the info on sample and single end was added again.
-    //bamMedaka_ch = BAM_READCOUNT.out.bamcount.join(MEDAKA.out.assembly).map { entry ->
-    //[[virus: entry[0].virus], entry[1], entry[2], entry[3]]
-    //}//.view()
-    //snipitMafft_ch = SNIPIT_SNPPLOT.out.csv.join(MAFFT_ALIGN.out.aln)//.view()
-    //fourcombined_ch = bamMedaka_ch.combine(snipitMafft_ch, by: [0])//.view()
-
-    //fourcombined_ch = (bamMedaka_ch.combine(snipitMafft_ch, by: [0])).map { entry ->
-    //    def id = entry[3].getBaseName().replaceFirst(/\..+/,"")
-    //    def singleEnd = "True"
-    //    def virus = entry[0].virus
-    //    [[id: id, single_end: singleEnd, virus: virus], entry[1], entry[2], entry[3], entry[4], entry[5]]
-    //}//.view()
-    ///end of combining channel
-
-    //SNP_COMPARE(
-    //    fourcombined_ch
-    //)
-
-    //groupEditedVirus_ch = (SNP_COMPARE.out.compare).map { entry ->
-    //   def id = entry[0].id
-    //    def singleEnd = entry[0].single_end
-    //    def virus = entry[0].virus
-    //    //def fasta = entry[1],entry[2]
-    //    [[virus: virus], entry[3]]
-    //}.groupTuple()//.view()
-
-    //MAFFT_TWO(
-    //    groupEditedVirus_ch,
-    //    params.outdir + "/reffix"
-    //)
-
-    //SNIPIT_TWO(
-    //    MAFFT_TWO.out.aln
-    //)
 
     ch_versions = ch_versions.mix(FASTP.out.versions.first())
     ch_versions = ch_versions.mix(NANOPLOT.out.versions.first())
@@ -443,7 +393,6 @@ workflow METATROPICS {
         ch_versions.unique().collectFile(name: 'collated_versions.yml')
     )
 
-    //
     // MODULE: MultiQC
     //
     workflow_summary    = WorkflowMetatropics.paramsSummaryMultiqc(workflow, summary_params)
@@ -467,6 +416,16 @@ workflow METATROPICS {
       //ch_multiqc_logo.toList()
     //)
    //multiqc_report = MULTIQC.out.report.toList()
+
+    // Check if Docker is enabled
+    docker_enabled = workflow.containerEngine == 'docker'
+
+    // Run CLEANUP only if Docker was used
+    CLEANUP(
+        CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
+        FINAL_REPORT.out.finalReport,
+        docker_enabled
+    )
 }
 
 /*

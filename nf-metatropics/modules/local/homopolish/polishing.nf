@@ -2,10 +2,6 @@ process HOMOPOLISH_POLISHING {
     tag "${meta.id}.${meta.virus}"
     label 'process_single'
 
-    // TODO nf-core: List required Conda package(s).
-    //               Software MUST be pinned to channel (i.e. "bioconda"), version (i.e. "1.10").
-    //               For Conda, the build (i.e. "h9402c20_2") must be EXCLUDED to support installation on different operating systems.
-    // TODO nf-core: See section in main README for further information regarding finding and adding container addresses to the section below.
     container "$projectDir/images/homopolish.sif"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/homopolish%3A0.4.1--pyhdfd78af_1':
@@ -15,9 +11,7 @@ process HOMOPOLISH_POLISHING {
     tuple val(meta), path(consensus), path(reffasta)
 
     output:
-    // TODO nf-core: Named file extensions MUST be emitted for ALL output channels
     tuple val(meta), path("*.polish.fasta"), emit: polishconsensus
-    // TODO nf-core: List additional required output channels/values here
     path "versions.yml"           , emit: versions
 
     when:
