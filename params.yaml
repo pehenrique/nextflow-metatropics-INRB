@@ -2,7 +2,7 @@ input: /data/Daan/Projects/INRB_r/Input/mpox.csv # csv files is different for fa
 input_dir: /data/Daan/Projects/INRB_r/Input/pod5 # Comment this line when starting from fastq files
 outdir: /data/Daan/Projects/INRB_r/Output
 fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Human/chm13v2.0.fa
-host_fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Host/Aedes/Aedes_aegypti.fasta
+host_fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Aedes/Aedes_aegypti.fasta
 dbmeta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/ViralRefseq
 basecall: true # Add 'false' when starting from fastq files 
 usegpu: true # # Add 'false' when starting from fastq files 
