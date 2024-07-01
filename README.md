@@ -17,6 +17,7 @@ unzip Databases/ViralRefseq.zip
 # 1) Download Human Database
 wget https://zenodo.org/records/12518358/files/ViralRefseq.zip
 wget https://zenodo.org/records/12518452/files/Human.zip
+wget https://zenodo.org/records/12611397/files/Aedes.zip
 Unzip both
 
 # 2) Downlaod Viral Refseq Datase for Metamaps
