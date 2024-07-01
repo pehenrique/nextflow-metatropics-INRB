@@ -1,4 +1,4 @@
-process SAMTOOLS_hFASTQ {
+process SAMTOOLS_hoFASTQ {
     tag "$meta.id"
     label 'process_low'
 

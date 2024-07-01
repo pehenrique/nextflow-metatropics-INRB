@@ -10,7 +10,6 @@ def summary_params = NfcoreSchema.paramsSummaryMap(workflow, params)
 // Validate input parameters
 WorkflowMetatropics.initialise(params, log)
 
-// TODO nf-core: Add all file path parameters for the pipeline to the list below
 // Check input path parameters to see if they exist
 def checkPathParamList = [ params.input, params.multiqc_config, params.fasta ]
 for (param in checkPathParamList) { if (param) { file(param, checkIfExists: true) } }
@@ -42,6 +41,7 @@ include { INPUT_CHECK } from '../subworkflows/local/input_check'
 include { INPUT_CHECK_METATROPICS } from '../subworkflows/local/input_check_metatropics'
 include { FIX } from '../subworkflows/local/subfix_names'
 include { HUMAN_MAPPING } from '../subworkflows/local/human_mapping'
+include { HOST_MAPPING } from '../subworkflows/local/host_mapping'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -96,41 +96,17 @@ workflow METATROPICS {
 
     ch_versions = Channel.empty()
 
-    //
-    // SUBWORKFLOW: Read in samplesheet, validate and stage input files
-    //
-    //INPUT_CHECK (
-    //    ch_input
-    //)
-    //ch_versions = ch_versions.mix(INPUT_CHECK.out.versions)
-    //INPUT_CHECK.out.reads.map{it[1]}.view()
-
-    //
-    // MODULE: Run FastQC
-    //
-    //FASTQC (
-    //    INPUT_CHECK.out.reads
-    //)
-    //ch_versions = ch_versions.mix(FASTQC.out.versions.first())
-
-    //
-    //MODULES_DEVELOPED_BY_ANTONIO
-    //
-    //ch_input2 = params.input_fastq
     INPUT_CHECK_METATROPICS{
         ch_input
         //ch_input2
     }
-    //INPUT_CHECK_METATROPICS.out.reads.view()
-    //ch_sample = INPUT_CHECK_METATROPICS.out.reads.map{tuple(it[1],it[0])}
-    //ch_sample.view()
 
     if(params.basecall==true){
         if (params.input_dir==null) { exit 1, 'FAST5 input dir not specified!'}
         ch_sample = INPUT_CHECK_METATROPICS.out.reads.map{tuple(it[1],it[0])}
 
         inFast5 = channel.fromPath(params.input_dir)
-        //inFast5.view()
+
         GUPPY_ONT(
             inFast5
         )
@@ -141,28 +117,21 @@ workflow METATROPICS {
 
         ch_barcode = GUPPYDEMULTI_DEMULTIPLEXING.out.barcodeReads.flatten().map{file -> tuple(file.simpleName, file)}
         ch_sample_barcode = ch_sample.join(ch_barcode)
-        //ch_sample_barcode.view()
 
-        //FIX_NAMES(
         FIX(
             ch_sample_barcode
         )
-        //FIX.out.reads.view()
-        //FIX.out.reads.map{it[1]}.view()
 
         ch_versions = ch_versions.mix(GUPPY_ONT.out.versions)
         ch_versions = ch_versions.mix(GUPPYDEMULTI_DEMULTIPLEXING.out.versions)
     }
     else if(params.basecall==false){
         ch_sample = INPUT_CHECK_METATROPICS.out.reads.map{tuple(it[1].replaceFirst(/\/.+\//,""),it[0],it[1])}
-        //ch_sample.map{tuple(it[1].replaceFirst(/.fastq/,""),it[0],it[1])}
-        //ch_sample.view()
+
         FIX(
             ch_sample
         )
-        //FIX.out.reads.view()
     }
-    //FIX.out.reads.view()
 
     fastp_save_trimmed_fail = false
     FASTP(
@@ -171,45 +140,42 @@ workflow METATROPICS {
         fastp_save_trimmed_fail,
         []
     )
-    //FASTP.out.reads.view()
 
     NANOPLOT(
         FIX.out.reads
-        //FASTP.out.reads
     )
-    //NANOPLOT.out.txt.view()
-
+   
     HUMAN_MAPPING(
         FASTP.out.reads
     )
-    //HUMAN_MAPPING.out.nohumanreads.view()
+
+
+    if (params.host_fasta) {
+        HOST_MAPPING(
+            HUMAN_MAPPING.out.humanout
+        )
+        readsForMetamaps = HOST_MAPPING.out.hostout
+    } else {
+        readsForMetamaps = HUMAN_MAPPING.out.humanout
+    }
 
     METAMAPS_MAP(
-        HUMAN_MAPPING.out.nohumanreads
+        readsForMetamaps
     )
-
 
     meta_with_othermeta = METAMAPS_MAP.out.metaclass.join(METAMAPS_MAP.out.otherclassmeta)
     meta_with_othermeta_with_metalength = meta_with_othermeta.join(METAMAPS_MAP.out.metalength)
     meta_with_othermeta_with_metalength_with_parameter = meta_with_othermeta_with_metalength.join(METAMAPS_MAP.out.metaparameters)
-    //meta_with_othermeta_with_metalength_with_parameter.view()
 
     METAMAPS_CLASSIFY(
         meta_with_othermeta_with_metalength_with_parameter
     )
-
-
-    //METAMAPS_MAP.out.metaclass.view()
-    //NANOPLOT.out.totalreads.view()
-    //METAMAPS_CLASSIFY.out.classlength.view()
-    //METAMAPS_CLASSIFY.out.classcov.view()
 
     rmetaplot_ch=((METAMAPS_MAP.out.metaclass.join(METAMAPS_CLASSIFY.out.classlength)).join(METAMAPS_CLASSIFY.out.classcov)).join(NANOPLOT.out.totalreads)
 
     R_METAPLOT(
         rmetaplot_ch
     )
-
 
     KRONA_KRONADB();
 
@@ -218,25 +184,11 @@ workflow METATROPICS {
         KRONA_KRONADB.out.db
     )
 
-    reffasta_ch=(R_METAPLOT.out.reporttsv.join(METAMAPS_CLASSIFY.out.classem)).join(HUMAN_MAPPING.out.nohumanreads)
-    //reffasta_ch.view()
+    reffasta_ch=(R_METAPLOT.out.reporttsv.join(METAMAPS_CLASSIFY.out.classem)).join(readsForMetamaps)
 
     REF_FASTA(
         reffasta_ch
     )
-
-    //REF_FASTA.out.headereads
-    //REF_FASTA.out.allreads.view()
-    //REF_FASTA.out.seqref.view()
-
-    //Previous problem: Fixing channels in order to break them for each pathogen present in the sample.
-    //Curiously, when the channel has only one file, it needs to be fixed e.g.([[metada][file]]), otherwise flatMap and collect
-    //get the paht elements e.g.(home,work,randaom_dir,filename) of the file instead of the whole path to extract the taxonomy id.
-    //I used the number 30 below as in this scenario with only on file, the function size retuns the file size instead of the number of
-    //files in my emission of the channel.
-    
-    //New solution: Handling single vs. multiple files:
-	//The solution distinguishes between single files and multiple files using instanceof Path. This addresses the core issue without relying on file size.
 
 	fixingheader_ch = REF_FASTA.out.headereads.map { entry ->
     def meta = entry[0]
@@ -275,7 +227,6 @@ workflow METATROPICS {
 	headers_ch = fixingheader_ch.flatMap { entry ->
         def id = entry[0].id
         def singleEnd = entry[0].single_end
-        //def virus = entry[1].getBaseName().replaceFirst(/.+\./,"")
         entry[1].collect { virus ->
             [[id: id, single_end: singleEnd, virus: virus.getBaseName().replaceFirst(/.+\./,"")], "${virus}"]
         }
@@ -343,29 +294,24 @@ workflow METATROPICS {
         [[virus: virus], entry[1]]
     }.groupTuple()//.view()
 
-    //covcon_ch = SAMTOOLS_COVERAGE.out.coverage.join(HOMOPOLISH_POLISHING.out.polishconsensus)
     covcon_ch = (SAMTOOLS_COVERAGE.out.coverage.join(HOMOPOLISH_POLISHING.out.polishconsensus)).map { entry ->
     [[id: entry[0].id, single_end: entry[0].single_end], entry[1], entry[2]]
-    }//.view()
-
-    //covcon_ch.combine(R_METAPLOT.out.reporttsv, by: 0).view()
+    }
 
     addingdepthin_ch = (covcon_ch.combine(R_METAPLOT.out.reporttsv, by: 0)).map { entry ->
         def id = entry[0].id
         def singleEnd = entry[0].single_end
         def virus = entry[1].getBaseName().replaceFirst(/.+\./,"")
         [[id: id, single_end: singleEnd, virus: virus], entry[1], entry[2], entry[3]]
-    }//.view()
+    }
 
     ADDING_DEPTH(
         addingdepthin_ch
     )
 
-    //(ADDING_DEPTH.out.repdepth.map{it[1]}).collect().view()
     FINAL_REPORT(
         (ADDING_DEPTH.out.repdepth.map{it[1]}).collect()
     )
-    //FINAL_REPORT.out.finalReport.view()
 
     BAM_READCOUNT(
         MEDAKA.out.bamfiles.join(REFFIX_FASTA.out.fixedseqref)
@@ -383,8 +329,6 @@ workflow METATROPICS {
     ch_versions = ch_versions.mix(SAMTOOLS_COVERAGE.out.versions.first())
     ch_versions = ch_versions.mix(IVAR_CONSENSUS.out.versions.first())
     ch_versions = ch_versions.mix(HOMOPOLISH_POLISHING.out.versions.first())
-    //ch_versions = ch_versions.mix(MAFFT_ALIGN.out.versions.first())
-    //ch_versions = ch_versions.mix(SNIPIT_SNPPLOT.out.versions.first())
     ch_versions = ch_versions.mix(HUMAN_MAPPING.out.versionsmini)
     ch_versions = ch_versions.mix(HUMAN_MAPPING.out.versionssamsort)
     ch_versions = ch_versions.mix(HUMAN_MAPPING.out.versionssamfastq)
@@ -405,17 +349,8 @@ workflow METATROPICS {
     ch_multiqc_files = ch_multiqc_files.mix(ch_workflow_summary.collectFile(name: 'workflow_summary_mqc.yaml'))
     ch_multiqc_files = ch_multiqc_files.mix(ch_methods_description.collectFile(name: 'methods_description_mqc.yaml'))
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    //ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(FASTP.out.json.collect{it[1]}.ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(NANOPLOT.out.txt.collect{it[1]}.ifEmpty([]))
-
-   //MULTIQC (
-      //ch_multiqc_files.collect(),
-      //ch_multiqc_config.toList(),
-      //ch_multiqc_custom_config.toList(),
-      //ch_multiqc_logo.toList()
-    //)
-   //multiqc_report = MULTIQC.out.report.toList()
 
     // Check if Docker is enabled
     docker_enabled = workflow.containerEngine == 'docker'
