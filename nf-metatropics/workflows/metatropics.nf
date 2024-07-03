@@ -149,7 +149,6 @@ workflow METATROPICS {
         FASTP.out.reads
     )
 
-
     if (params.host_fasta) {
         HOST_MAPPING(
             HUMAN_MAPPING.out.humanout
@@ -266,10 +265,14 @@ workflow METATROPICS {
         SEQTK_SUBSEQ.out.sequences.join(REFFIX_FASTA.out.fixedseqref)
     )
 
-    if (params.rcoverage_figure) {
-        RCOVERAGE(
-            MEDAKA.out.coveragefiles.collect()
-        )
+   // Conditional RCOVERAGE process
+   if (params.rcoverage_figure) {
+    RCOVERAGE(
+        MEDAKA.out.coveragefiles.collect()
+    )
+    ch_rcoverage_done = RCOVERAGE.out.collect() // Create a channel that signals RCOVERAGE is done
+    } else {
+    ch_rcoverage_done = Channel.empty() // Create an empty channel if RCOVERAGE is not run
     }
 
     SAMTOOLS_COVERAGE(
@@ -333,8 +336,10 @@ workflow METATROPICS {
     ch_versions = ch_versions.mix(HUMAN_MAPPING.out.versionssamsort)
     ch_versions = ch_versions.mix(HUMAN_MAPPING.out.versionssamfastq)
 
-    CUSTOM_DUMPSOFTWAREVERSIONS (
-        ch_versions.unique().collectFile(name: 'collated_versions.yml')
+    // Wait for RCOVERAGE to complete before running CUSTOM_DUMPSOFTWAREVERSIONS
+    CUSTOM_DUMPSOFTWAREVERSIONS(
+    ch_versions.unique().collectFile(name: 'collated_versions.yml'),
+    ch_rcoverage_done // Add this channel as an input
     )
 
     // MODULE: MultiQC
@@ -359,9 +364,9 @@ workflow METATROPICS {
     CLEANUP(
         CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
         FINAL_REPORT.out.finalReport,
-        docker_enabled
-    )
+        docker_enabled)
 }
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

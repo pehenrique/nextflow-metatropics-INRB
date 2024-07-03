@@ -1,6 +1,6 @@
 process RCOVERAGE {
     tag "rcoverage"
-    label 'process_single' 
+    label 'process_high' 
 
     container "$projectDir/images/r-image.sif"
     conda "bioconda::metamaps=0.1.98102e9"
@@ -15,7 +15,7 @@ process RCOVERAGE {
     path coveragefiles
 
     output:
-    path "coverage_distribution.pdf"
+    path "coverage_distribution_group_*.pdf"
 
     script:
     """

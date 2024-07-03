@@ -47,18 +47,35 @@ combined_data_binned <- combined_data %>%
 # Calculate log10(5)
 log_5 <- log10(5)
 
-# Create the plot
-p <- ggplot(combined_data_binned, aes(x = bin_start, y = avg_depth)) +
-  geom_line(color = "#057215") +
-  geom_segment(data = subset(combined_data_binned, avg_depth < log_5),
-               aes(xend = bin_start, y = 0, yend = -0.3),
-               color = "darkred", alpha = 1, linewidth = 0.4) +
-  geom_hline(yintercept = log_5, linetype = "dashed", color = "black") +
-  theme_bw() +
-  facet_wrap(~ name, scales = "free_x") +
-  labs(title = "Coverage Distribution",
-       x = "Position",
-       y = "Log10(Depth)")
+# Function to create and save plot for a group of samples
+create_plot <- function(data, group_number) {
+  p <- ggplot(data, aes(x = bin_start, y = avg_depth)) +
+    geom_line(color = "#057215") +
+    geom_segment(data = subset(data, avg_depth < log_5),
+                 aes(xend = bin_start, y = 0, yend = -0.3),
+                 color = "darkred", alpha = 1, linewidth = 0.2) +
+    geom_hline(yintercept = log_5, linetype = "dashed", color = "black") +
+    theme_bw() +
+    facet_wrap(~ name, scales = "free_x") +
+    labs(title = paste("Coverage Distribution - Group", group_number),
+         x = "Position",
+         y = "Log10(Depth)")
+  
+  filename <- paste0("coverage_distribution_group_", group_number, ".pdf")
+  ggsave(filename, plot = p, width = 12, height = 8, units = "in")
+}
 
-# Save the plot
-ggsave("coverage_distribution.pdf", plot = p, width = 12, height = 8, units = "in")
+# Group samples and create plots
+sample_names <- unique(combined_data_binned$name)
+num_groups <- ceiling(length(sample_names) / 10)
+
+for (i in 1:num_groups) {
+  start_index <- (i - 1) * 10 + 1
+  end_index <- min(i * 10, length(sample_names))
+  group_samples <- sample_names[start_index:end_index]
+  
+  group_data <- combined_data_binned %>%
+    filter(name %in% group_samples)
+  
+  create_plot(group_data, i)
+}
