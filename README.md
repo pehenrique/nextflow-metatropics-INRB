@@ -74,7 +74,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --outdir                      [string]  The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.
    Reference genome options
     --fasta                       [string]  Path to FASTA human genome file.
-    --host_fasta                        [string]  Path to FASTA host genome file.
+    --host_fasta                  [string]  Path to FASTA host genome file.
     --dbmeta                      [string]  Path for the MetaMaps database for read classification. [default: None]
    Generic options
     --basecall                    [boolean] In case fast5 is the input, that option shoud be true. Default is false.
