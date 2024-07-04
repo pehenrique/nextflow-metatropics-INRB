@@ -56,10 +56,9 @@ wget https://zenodo.org/records/12611397/files/Aedes.zip
 unzip Aedes.zip
 ```
 
-
-
-
 # Run pipeline
+
+
 
 ** Specificy Input (fast5 or fastq)
 ** params.file
@@ -67,11 +66,6 @@ unzip Aedes.zip
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 
 ### 2. Summary of the metatropics pipeline
-
-
-
-
-
 
 
 
