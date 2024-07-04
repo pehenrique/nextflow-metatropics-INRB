@@ -63,24 +63,24 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 ```
 
 <u>The params.yaml file contains the most important paths:</u>
-input: /data/Daan/Projects/INRB/Input/mpox.csv # csv files is different for fast5 and fastq files
-#input_dir: /data/Daan/Projects/INRB_r/Input/pod5
-outdir: /data/Daan/Projects/INRB/Output
-fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Human/chm13v2.0.fa
-host_fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Aedes/Aedes_aegypti.fasta
-dbmeta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/ViralRefseq
-#basecall: true 
-#usegpu: true 
-#model: dna_r10.4.1_e8.2_400bps_hac.cfg
-minLength: 200
-pair: true
-front: 18
-tail: 18
-minVirus: 0.01
-quality: 20
-depth: 5
-agreement: 0.7
-rcoverage_figure: true
+- input: /data/Daan/Projects/INRB/Input/mpox.csv # csv files is different for fast5 and fastq files
+- #input_dir: /data/Daan/Projects/INRB_r/Input/pod5
+- outdir: /data/Daan/Projects/INRB/Output
+- fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Human/chm13v2.0.fa
+- host_fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Aedes/Aedes_aegypti.fasta
+- dbmeta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/ViralRefseq
+- #basecall: true 
+- #usegpu: true 
+- #model: dna_r10.4.1_e8.2_400bps_hac.cfg
+- minLength: 200
+- pair: true
+- front: 18
+- tail: 18
+- minVirus: 0.01
+- quality: 20
+- depth: 5
+- agreement: 0.7
+- rcoverage_figure: true
 
 **Note:** The format of the `mpox.csv` input file differs based on your starting data:
 - For squiggle data (fast5/pod5 files), use one format
