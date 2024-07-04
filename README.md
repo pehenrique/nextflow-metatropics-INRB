@@ -14,7 +14,7 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 
 For a more detailed description see [Metatropics description](https://github.com/DaanJansen94/nf-metatropics)
 
-### 1. Open metatropics pipeline
+### 1. Download metatropics pipeline
 ```
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
