@@ -130,9 +130,6 @@ Below one can see the output directories and their description. `guppy` and `gup
 17. [`bam`] - detailed statistics for the BAM files from `medaka` directory for each position of virus refence genome
 18. [`homopolish`] - consensus sequence for each virus in each sample polished for the indel variations
 19. [`addingDepth`] - table report for each virus in each sample
-20. [`mafft`] - multiple sequence alignment for each virus for all samples
-21. [`snipit`] - SNP plot generated based on the aligments present in the directory `mafft`
-22. [`multiqc`] - multiqc report for quality and data filtration, and information on sotware versions
 23. [`final`] - final table report for all the run
 24. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
 25. [`rcoverage`] - PDF files including coverage figures of identified viruses  
