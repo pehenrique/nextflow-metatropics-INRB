@@ -62,6 +62,8 @@ unzip Aedes.zip
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 ```
 
+**Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
+
 <u>The params.yaml file contains the most important paths:</u>
    ```
    nextflow run nf-metatropics/ --help
@@ -90,7 +92,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
    ```
 
 **Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
-- For raw reads (fastq files): (<u>use params.yml</u>)
+- For raw reads (FASTQ): (<u>use params.yml</u>)
 ```
 The params.yaml file contains the most important paths
 sample,single_end,barcode
@@ -98,7 +100,7 @@ sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fast
 sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
 ```
 
-- For squiggle data (fast5/pod5 files): (<u>use params2.yml</u>)
+- For squiggle data (FAST5/POD5): (<u>use params2.yml</u>)
 ```
 sample,single_end,barcode
 sample_name01,True,barcode01
@@ -114,42 +116,15 @@ sample_name02,True,barcode02
 
 
 
-5. Start running your own analysis!
-
-   <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
-
-   ```
-   nextflow run nf-metatropics/ --help
-   Input/output options
-    --input                       [string]  Path to comma-separated file containing information about the samples in the experiment.
-    --input_dir                   [string]  Input directory with fast5 [default: None]
-    --outdir                      [string]  The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.
-    --multiqc_title               [string]  MultiQC report title. Printed as page header, used for filename if not otherwise specified.
-   Reference genome options
-    --fasta                       [string]  Path to FASTA genome file.
-   Generic options
-    --basecall                    [boolean] In case fast5 is the input, that option shoud be true. Default is false.
-    --model                       [string]  In case fast5 is the input, the guppy model for basecalling should be provide. [default:dna_r9.4.1_450bps_hac.cfg]
-    --minLength                   [integer] Minimum length for a read to be analyzed. [default: 200]
-    --minVirus                    [number]  Minimum virus data frequency in the raw data to be part of the output. [default: 0.001]
-    --usegpu                      [boolean] In case fast5 is the input, the use of GPU Nvidia should be true.
-    --dbmeta                      [string]  Path for the MetaMaps database for read classification. [default: None]
-    --pair                        [boolean] If barcodes were added at both sides of a read (true) or only at one side (false).
-    --quality                     [integer] Minimum quality for a base to build the consensus [default: 7]
-    --agreement                   [number]  Minimum base frequency to be called without ambiguity [default: 0.7]
-    --depth                       [integer] Minimum depth of a position to build the consensus [default: 5]
-    --front                       [integer] Number of bases to delete at 5 prime of the read [default: 0]
-    --tail                        [integer] Number of bases to delete at 3 prime of the read [default: 0]
-   ```
 
 
-  
-   The command line for this case:
-   ```bash
-   nextflow run nf-metatropics/ -profile singularity --input /home/itg.be/arezende/example3.csv --outdir /home/itg.be/arezende/testnf_fastq --fasta /home/itg.be/arezende/databases/chm13v2.0.fa --minLength 600 --dbmeta /home/itg.be/arezende/databases/virusDB2 --pair true -resume
-   ```
 
-   ## Output
+
+
+
+
+
+## Output
 
 <!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
