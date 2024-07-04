@@ -13,18 +13,31 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
-### 2. Summary of the metatropics pipeline
-![Figure](./nf-metatropics//Metatropics1.jpg)
+### 2. Download Databases
+
+```
+cd Databases
+```
+
+**Viral Refseq database**
+```
+wget https://zenodo.org/records/12518358/files/ViralRefseq.zip
+unzip ViralRefseq.zip 
+```
+
+**Human genome**
+```
+wget https://zenodo.org/records/12518452/files/Human.zip
+unzip ViralRefseq.zip 
+```
+
+**Mosquito (or other) hosts (optional)**
+```
+wget https://zenodo.org/records/12518452/files/Human.zip
+unzip ViralRefseq.zip 
+```
 
 
-
-
-
-
-# Download git-lfs
-sudo apt-get install git-lfs
-OR
-pip install git-lfs
 
 # Download complete Databases
 git lfs pull --include "Databases/Human.zip"
@@ -33,16 +46,20 @@ unzip Databases/ViralRefseq.zip
 
 # Alternatively you can download both Human and ViralRefSeq database from
 # 1) Download Human Database
-wget https://zenodo.org/records/12518358/files/ViralRefseq.zip
-wget https://zenodo.org/records/12518452/files/Human.zip
-wget https://zenodo.org/records/12611397/files/Aedes.zip
-Unzip both
+
+
+
+
+
 
 # 2) Downlaod Viral Refseq Datase for Metamaps
 https://zenodo.org/records/12518358
 
 # Run pipeline
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
+
+### 2. Summary of the metatropics pipeline
+![Figure](./nf-metatropics//Metatropics1.jpg)
 
 
 ## FOr SIF files also add 'r-image.txt'
