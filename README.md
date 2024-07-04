@@ -82,7 +82,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 - agreement: 0.7
 - rcoverage_figure: true
 
-**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/nf-metatropics/Input) file differs based on your starting data:
+**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/Input) file differs based on your starting data:
 - For raw reads (fastq files): 
 ```
 sample,single_end,barcode
