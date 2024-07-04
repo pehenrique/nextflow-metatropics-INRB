@@ -13,7 +13,7 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
-## 2. Install Nextflow and Container systems
+### 2. Install Nextflow and Container systems
 Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
 
 Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility. Additionally, you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. 
