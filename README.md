@@ -8,7 +8,7 @@
 # Nextflow-metatropics-INRB
 The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workflow designed for viral identification and the creation of consensus genomes from nanopore (metagenomic) sequencing data. It leverages container systems like [Docker](https://www.docker.com) and [Singularity](https://sylabs.io/docs/), utilizing one container per process to avoid software dependency conflicts and simplifies maintainenance. This container-based approach ensures that installation is straightforward and results are highly reproducible. 
 
-## **Pipeline summary**
+### Pipeline summary
 ![Figure](./nf-metatropics//Metatropics1.jpg)
 
 ### 1. Open metatropics pipeline
