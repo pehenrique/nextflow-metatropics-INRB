@@ -56,14 +56,51 @@ wget https://zenodo.org/records/12611397/files/Aedes.zip
 unzip Aedes.zip
 ```
 
-# Run pipeline
+### 4. Run pipeline
 
-
-
-** Specificy Input (fast5 or fastq)
-** params.file
-
+```
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
+```
+
+<u>The params.yaml file contains the most important paths:</u>
+input: /data/Daan/Projects/INRB/Input/mpox.csv # csv files is different for fast5 and fastq files
+#input_dir: /data/Daan/Projects/INRB_r/Input/pod5
+outdir: /data/Daan/Projects/INRB/Output
+fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Human/chm13v2.0.fa
+host_fasta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/Aedes/Aedes_aegypti.fasta
+dbmeta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/ViralRefseq
+#basecall: true 
+#usegpu: true 
+#model: dna_r10.4.1_e8.2_400bps_hac.cfg
+minLength: 200
+pair: true
+front: 18
+tail: 18
+minVirus: 0.01
+quality: 20
+depth: 5
+agreement: 0.7
+rcoverage_figure: true
+
+**Note:** The format of the `mpox.csv` input file differs based on your starting data:
+- For squiggle data (fast5/pod5 files), use one format
+```
+sample,single_end,barcode
+sample_name01,True,barcode01
+sample_name02,True,barcode02
+```
+
+- For raw reads (fastq files), use another format
+```
+sample,single_end,barcode
+sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fastq
+sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
+```
+
+
+
+
+
 
 ### 2. Summary of the metatropics pipeline
 
@@ -102,29 +139,8 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --tail                        [integer] Number of bases to delete at 3 prime of the read [default: 0]
    ```
 
-   If you have FAST5 as input data, you will need to use the parameters `--input` and `--input_dir` to provide your inputs. The last one is the path for you FAST5 directory: `/home/user/my/path/fast5`. The parameter `--input` receives the path of a csv file with the format below:
-   ```bash
-   more /home/user/my/input_file.csv
 
-   sample,single_end,barcode
-   sample_name01,True,barcode01
-   sample_name02,True,barcode02
-   sample_name03,True,barcode03
-   ```
-   The command line for this case:
-   ```bash
-   nextflow run nf-metatropics/ -profile singularity --input /home/itg.be/arezende/example4.csv --input_dir /home/itg.be/arezende/fast5 --outdir /home/itg.be/arezende/testnf_guppy --fasta /home/itg.be/arezende/databases/chm13v2.0.fa --basecall true --minLength 600 --usegpu true --dbmeta /home/itg.be/arezende/databases/virusDB2 --pair true -resume
-   ```
-
-   If you have FASTQ as input data, you will only need to use the parameter `--input` to provide your input. It will receives the path of a csv file with the format below:
-   ```bash
-   more /home/user/my/input_file.csv
-
-   sample,single_end,barcode
-   sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fastq
-   sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
-   sample_name03,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode03.fastq
-   ```
+  
    The command line for this case:
    ```bash
    nextflow run nf-metatropics/ -profile singularity --input /home/itg.be/arezende/example3.csv --outdir /home/itg.be/arezende/testnf_fastq --fasta /home/itg.be/arezende/databases/chm13v2.0.fa --minLength 600 --dbmeta /home/itg.be/arezende/databases/virusDB2 --pair true -resume
