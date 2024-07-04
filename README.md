@@ -14,7 +14,7 @@ git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
 ### 2. Summary of the metatropics pipeline
-![Figure](./nextflow-metatropics-INRB/nf-metatropics//Metatropics1.jpg)
+![Figure](./nf-metatropics//Metatropics1.jpg)
 
 
 
