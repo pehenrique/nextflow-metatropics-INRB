@@ -39,25 +39,14 @@ sudo singularity build metamaps.sif metamaps.txt
 sudo singularity build samtools_minimap2.sif samtools_minimap2.txt
 ```
 
-### 3. Download Databases
+### 3. Download Databases 
+This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases
 
-**Viral Refseq database**
 ```
 cd Databases
-wget https://zenodo.org/records/12518358/files/ViralRefseq.zip
-unzip ViralRefseq.zip 
-```
-
-**Human genome database**
-```
-wget https://zenodo.org/records/12518452/files/Human.zip
-unzip Human.zip
-```
-
-**Mosquito (or other) hosts (optional) database**
-```
-wget https://zenodo.org/records/12611397/files/Aedes.zip
-unzip Aedes.zip
+wget https://zenodo.org/records/12657225/files/combined_databases.tar.gz
+tar -xzvf combined_databases.tar.gz
+rm combined_databases.tar.gz
 ```
 
 ### 4. Run pipeline
