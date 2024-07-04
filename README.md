@@ -13,6 +13,11 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
+## 2. Install Nextflow and Container systems
+Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
+Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
+
+
 ### 2. Download Databases
 
 **Viral Refseq database**
@@ -36,16 +41,8 @@ unzip ViralRefseq.zip
 
 
 
-# Alternatively you can download both Human and ViralRefSeq database from
-# 1) Download Human Database
 
 
-
-
-
-
-# 2) Downlaod Viral Refseq Datase for Metamaps
-https://zenodo.org/records/12518358
 
 # Run pipeline
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
