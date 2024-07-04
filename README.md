@@ -13,6 +13,10 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
+### 2. Summary of the metatropics pipeline
+![Figure](./nextflow-metatropics-INRB/Metatropics1.jpg)
+
+
 
 
 
