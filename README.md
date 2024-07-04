@@ -71,7 +71,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 - dbmeta: /data/Daan/Projects/nextflow-metatropics-INRB/Databases/ViralRefseq
 - #basecall: true 
 - #usegpu: true 
-- #model: dna_r10.4.1_e8.2_400bps_hac.cfg
+- #model: dna_r10.4.1_e8.2_400bps_hac.cfg # model depends on your flowcel and kit used
 - minLength: 200
 - pair: true
 - front: 18
@@ -82,21 +82,19 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 - agreement: 0.7
 - rcoverage_figure: true
 
-**Note:** The format of the `mpox.csv` input file differs based on your starting data:
-- For squiggle data (fast5/pod5 files), use one format
-```
-sample,single_end,barcode
-sample_name01,True,barcode01
-sample_name02,True,barcode02
-```
-
-- For raw reads (fastq files), use another format
+**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/nf-metatropics/Input) file differs based on your starting data:
+- For raw reads (fastq files): 
 ```
 sample,single_end,barcode
 sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fastq
 sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
 ```
-
+- For squiggle data (fast5/pod5 files):
+```
+sample,single_end,barcode
+sample_name01,True,barcode01
+sample_name02,True,barcode02
+```
 
 
 
