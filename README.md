@@ -12,7 +12,7 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 
 ![Figure](./nf-metatropics//Metatropics1.jpg)
 
-For a more detailed description see [Metatropics description](https://github.com/DaanJansen94/nf-metatropics))
+For a more detailed description see [Metatropics description](https://github.com/DaanJansen94/nf-metatropics)
 
 ### 1. Open metatropics pipeline
 ```
