@@ -67,6 +67,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 <u>The params.yaml file contains the most important paths:</u>
    ```
    nextflow run nf-metatropics/ --help
+
    Input/output options
     --input                       [string]  Path to comma-separated file containing information about the samples in the experiment.
     --input_dir                   [string]  Input directory with fast5 [default: None]
@@ -106,26 +107,7 @@ sample_name01,True,barcode01
 sample_name02,True,barcode02
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Output
-
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
+### 5. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
 
 1. [`guppy`] - fastq files after the basecalling without being demultiplexed
@@ -134,62 +116,23 @@ Below one can see the output directories and their description. `guppy` and `gup
 3. [`fastp`] - results after trimming analysis performed by FASTP
 4. [`nanoplot`] - quality results for the sequencing data just after demultiplexing
 5. [`minimap2`] - BAM files about mapping against host genome
-6. [`nohuman`] - gziped fastq files without reads mapping to host genome
-7. [`metamaps`] - results from both steps of Metamaps execution for read classification (mapDirectly and Classify)
-8. [`r`] - intermediate table report and graphical PDF report for each sample
-9. [`ref`] - header of the reads and fasta reference genomes for each virus found for each sample
-10. [`krona`] - HTML files for each sample with interactive composition pie chart
-11. [`reffix`] - fasta refence genomes with fixed header for each virus found during the run
-12. [`seqtk`] - gziped fastq file for each set of read classified to a virus for each sample
-13. [`medaka`] - BAM file for each virus with mapping results from the virus genome reference for each sample
-14. [`samtools`] - mapping statistics calculated to BAM files present in the `medaka` directory
-15. [`ivar`] - consensus sequences produced for each virus found in each sample
-16. [`bam`] - detailed statistics for the BAM files from `medaka` directory for each position of virus refence genome
-17. [`homopolish`] - consensus sequence for each virus in each sample polished for the indel variations
-18. [`addingDepth`] - table report for each virus in each sample
-19. [`mafft`] - multiple sequence alignment for each virus for all samples
-20. [`snipit`] - SNP plot generated based on the aligments present in the directory `mafft`
-21. [`multiqc`] - multiqc report for quality and data filtration, and information on sotware versions
-22. [`final`] - final table report for all the run
-23. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
-## Documentation
-
-The nf-core/metatropics pipeline comes with documentation about the pipeline [usage](https://nf-co.re/metatropics/usage), [parameters](https://nf-co.re/metatropics/parameters) and [output](https://nf-co.re/metatropics/output).
-
-## Credits
-
-nf-core/metatropics was originally written by Antonio Mauro Rezende.
-
-We thank the following people for their extensive assistance in the development of this pipeline:
-   > - Koen Vercauteren
-   > - Tessa de Block
-
-<!-- TODO nf-core: If applicable, make list of people who have also contributed -->
-
-## Contributions and Support
-
-If you would like to contribute to this pipeline, please see the [contributing guidelines](.github/CONTRIBUTING.md).
-
-For further information or help, don't hesitate to get in touch on the [Slack `#metatropics` channel](https://nfcore.slack.com/channels/metatropics) (you can join with [this invite](https://nf-co.re/join/slack)).
-
-## Citations
-De Baetselier, I., Van Dijck, C., Kenyon, C. et al. Retrospective detection of asymptomatic monkeypox virus infections among male sexual health clinic attendees in Belgium. Nat Med 28, 2288–2292 (2022). https://doi.org/10.1038/s41591-022-02004-w
-
-Berens-Riha Nicole, De Block Tessa, Rutgers Jojanneke, Michiels Johan, Van Gestel Liesbeth, Hens Matilde, ITM monkeypox study group, Kenyon Chris, Bottieau Emmanuel, Soentjens Patrick, van Griensven Johan, Brosius Isabel, Ariën Kevin K, Van Esbroeck Marjan, Rezende Antonio Mauro, Vercauteren Koen, Liesenborghs Laurens. Severe mpox (formerly monkeypox) disease in five patients after recent vaccination with MVA-BN vaccine, Belgium, July to October 2022. Euro Surveill. 2022;27(48):pii=2200894. https://doi.org/10.2807/1560-7917.ES.2022.27.48.2200894
-
-
-
-<!-- TODO nf-core: Add citation for pipeline after first release. Uncomment lines below and update Zenodo doi and badge at the top of this file. -->
-<!-- If you use  nf-core/metatropics for your analysis, please cite it using the following doi: [10.5281/zenodo.XXXXXX](https://doi.org/10.5281/zenodo.XXXXXX) -->
-
-<!-- TODO nf-core: Add bibliography of tools and data used in your pipeline -->
-
-An extensive list of references for the tools used by the pipeline can be found in the [`CITATIONS.md`](CITATIONS.md) file.
-
-You can cite the `nf-core` publication as follows:
-
-> **The nf-core framework for community-curated bioinformatics pipelines.**
->
-> Philip Ewels, Alexander Peltzer, Sven Fillinger, Harshil Patel, Johannes Alneberg, Andreas Wilm, Maxime Ulysse Garcia, Paolo Di Tommaso & Sven Nahnsen.
->
-> _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
+6. [`nohuman`] - gziped fastq files without reads mapping to human genome
+7. [`nohost`] - gziped fastq files without reads mapping to host genome (-optional)
+8. [`metamaps`] - results from both steps of Metamaps execution for read classification (mapDirectly and Classify)
+9. [`r`] - intermediate table report and graphical PDF report for each sample
+10. [`ref`] - header of the reads and fasta reference genomes for each virus found for each sample
+11. [`krona`] - HTML files for each sample with interactive composition pie chart
+12. [`reffix`] - fasta refence genomes with fixed header for each virus found during the run
+13. [`seqtk`] - gziped fastq file for each set of read classified to a virus for each sample
+14. [`medaka`] - BAM file for each virus with mapping results from the virus genome reference for each sample
+15. [`samtools`] - mapping statistics calculated to BAM files present in the `medaka` directory
+16. [`ivar`] - consensus sequences produced for each virus found in each sample
+17. [`bam`] - detailed statistics for the BAM files from `medaka` directory for each position of virus refence genome
+18. [`homopolish`] - consensus sequence for each virus in each sample polished for the indel variations
+19. [`addingDepth`] - table report for each virus in each sample
+20. [`mafft`] - multiple sequence alignment for each virus for all samples
+21. [`snipit`] - SNP plot generated based on the aligments present in the directory `mafft`
+22. [`multiqc`] - multiqc report for quality and data filtration, and information on sotware versions
+23. [`final`] - final table report for all the run
+24. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
+25. [`rcoverage`] - PDF files including coverage figures of identified viruses  
