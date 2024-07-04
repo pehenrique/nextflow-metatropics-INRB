@@ -19,14 +19,25 @@ For a more detailed description see [Metatropics description](https://github.com
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
-### 2. Install Nextflow and Container systems
-2.1 Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
+### 2. Install Nextflow
+Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
 ```
 curl -s https://get.nextflow.io | bash &&
 sudo mv nextflow /usr/local/bin/
 ```
 
-2.2 Install any of the following container systems [`Docker`](https://docs.sevenbridges.com/docs/install-docker-on-linux), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility. Additionally, you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. 
+### 3. Install container systems
+Install any of the following container systems [`Docker`](https://docs.sevenbridges.com/docs/install-docker-on-linux), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility. 
+
+Docker example:  
+```
+sudo apt-get update
+sudo apt-get install curl
+curl -fsSL https://get.docker.com/ | sh
+sudo usermod -aG docker <your_username>
+docker run hello-world
+sudo service docker restart
+```
 
 In case of using singularity, some containers need to be build:
 
