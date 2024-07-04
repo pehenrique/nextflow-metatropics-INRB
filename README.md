@@ -50,7 +50,7 @@ sudo singularity build metamaps.sif metamaps.txt
 sudo singularity build samtools_minimap2.sif samtools_minimap2.txt
 ```
 
-### 3. Download Databases 
+### 4. Download Databases 
 This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases
 
 ```
@@ -60,7 +60,7 @@ tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
 
-### 4. Run pipeline
+### 5. Run pipeline
 
 ```
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
@@ -111,7 +111,7 @@ sample_name01,True,barcode01
 sample_name02,True,barcode02
 ```
 
-### 5. Output
+### 6. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
 
 1. [`guppy`] - fastq files after the basecalling without being demultiplexed
