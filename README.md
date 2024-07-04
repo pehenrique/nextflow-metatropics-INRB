@@ -18,7 +18,7 @@ Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#install
 
 Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility. Additionally, you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. 
 
-In case of using singulairty, some containers need to be build:
+In case of using singularity, some containers need to be build:
 
 ```
 cd nf-metatropics/images
