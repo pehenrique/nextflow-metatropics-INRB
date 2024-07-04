@@ -9,8 +9,6 @@
 The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workflow designed for viral identification and the creation of consensus genomes from nanopore (metagenomic) sequencing data. It leverages container systems like [Docker](https://www.docker.com) and [Singularity](https://sylabs.io/docs/), utilizing one container per process to avoid software dependency conflicts and simplifies maintainenance. This container-based approach ensures that installation is straightforward and results are highly reproducible. 
 
 ### Pipeline summary
-![Figure](./nf-metatropics//Metatropics1.jpg)
-
 1. If input data if fast5 files, execute basecalling followed of demultiplexing with [`Guppy`] (https://nanoporetech.com/)
 2. With fastq (input or after demultiplexing), read QC ([`Nanoplot`](https://github.com/wdecoster/NanoPlot))
 3. Filter by quality and length ([`FASTP`](https://github.com/OpenGene/fastp))
@@ -26,6 +24,8 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 12. Calculate sequencing depth for each virus ([`SAMtools`](http://www.htslib.org/))
 13. Create consensus sequence for each virus ([`ivar`](https://github.com/andersen-lab/ivar))
 14. Polish indels at the consensus sequence ([`Homopolish`](https://github.com/ythuang0522/homopolish))
+
+![Figure](./nf-metatropics//Metatropics1.jpg)
 
 ### 1. Open metatropics pipeline
 ```
