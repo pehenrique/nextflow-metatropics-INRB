@@ -59,75 +59,25 @@ unzip ViralRefseq.zip
 
 
 
-
-
 # Run pipeline
+
+** Specificy Input (fast5 or fastq)
+** params.file
+
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 
 ### 2. Summary of the metatropics pipeline
 
 
 
-## FOr SIF files also add 'r-image.txt'
 
 
 
 
-## Introduction
 
+### 1 RUN
+### 2 OUTPUT
 
-## Pipeline summary
-
-<!-- TODO nf-core: Fill in short bullet-pointed list of the default steps in the pipeline -->
-
-1. If input data if fast5 files, execute basecalling followed of demultiplexing with [`Guppy`] (https://nanoporetech.com/)
-2. With fastq (input or after demultiplexing), read QC ([`Nanoplot`](https://github.com/wdecoster/NanoPlot))
-3. Filter by quality and length ([`FASTP`](https://github.com/OpenGene/fastp))
-3. Present QC for raw and filtered reads ([`MultiQC`](http://multiqc.info/))
-4. Map reads agains host of the samples ([`Minimap2`](https://github.com/lh3/minimap2))
-5. Manipulate the previous mapping results to remove host reads ([`SAMtools`](http://www.htslib.org/))
-6. Classify reads against viral sequence DB (RefSEQ)([`MetaMaps`](https://github.com/DiltheyLab/MetaMaps))
-7. Calculate classification metrics create plots ([`R`](https://www.r-project.org/))
-8. Plot sample composition ([`Krona`](https://github.com/marbl/Krona/wiki))
-9. Extract reads classified for each virus ([`seqtk`](https://github.com/lh3/seqtk))
-10. Create BAM file for each virus ([`Medaka`](https://github.com/nanoporetech/medaka))
-11. Check depth and composition of each position of reference viral genome with sequence data ([`bamread-count`](https://github.com/genome/bam-readcount))
-12. Calculate sequencing depth for each virus ([`SAMtools`](http://www.htslib.org/))
-13. Create consensus sequence for each virus ([`ivar`](https://github.com/andersen-lab/ivar))
-14. Polish indels at the consensus sequence ([`Homopolish`](https://github.com/ythuang0522/homopolish))
-15. Align consensus sequences of the same virus from different samples ([`MAFFT`](https://mafft.cbrc.jp/alignment/software/))
-16. Plot a SNP plot for each multiple sequence alignment ([`snipit`](https://github.com/aineniamh/snipit))
-
-## Quick Start
-
-1. Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
-
-2. Install any of [`Docker`](https://docs.docker.com/engine/installation/), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/) (you can follow [this tutorial](https://singularity-tutorial.github.io/01-installation/)), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility _(you can use [`Conda`](https://conda.io/miniconda.html) both to install Nextflow itself and also to manage software within pipelines. Please only use it within pipelines as a last resort; see [docs](https://nf-co.re/usage/configuration#basic-configuration-profiles))_.
-
-3. Download the pipeline and set containers:
-
-git clone https://github.com/AntonioRezende/nf-metatropics
-
-Some containers need to be build:
-
-```bash
-cd nf-metatropics/images
-sudo singularity build R_plot.sif R_plot.txt
-sudo singularity build guppy.sif guppy.txt
-sudo singularity build homopolish.sif homopolish.txt
-sudo singularity build metamaps.sif metamaps.txt
-sudo singularity build samtools_minimap2.sif samtools_minimap2.txt
-```
-
-4. Download database:
-https://zenodo.org/record/8047541
-
-The path for the database needs to be informed to the paremeter `--dbmeta`.
-To uncompress the database, use the command line below:
-
-   ```bash
-   tar -xzvf virusDB2.tar.gz
-   ```
 
 
 5. Start running your own analysis!
