@@ -47,13 +47,13 @@ unzip ViralRefseq.zip
 **Human genome database**
 ```
 wget https://zenodo.org/records/12518452/files/Human.zip
-unzip ViralRefseq.zip 
+unzip Human.zip
 ```
 
 **Mosquito (or other) hosts (optional) database**
 ```
-wget https://zenodo.org/records/12518452/files/Human.zip
-unzip ViralRefseq.zip 
+wget https://zenodo.org/records/12611397/files/Aedes.zip
+unzip Aedes.zip
 ```
 
 
