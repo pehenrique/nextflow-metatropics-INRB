@@ -71,24 +71,23 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --input                       [string]  Path to comma-separated file containing information about the samples in the experiment.
     --input_dir                   [string]  Input directory with fast5 [default: None]
     --outdir                      [string]  The output directory where the results will be saved. You have to use absolute paths to storage on Cloud infrastructure.
-    --multiqc_title               [string]  MultiQC report title. Printed as page header, used for filename if not otherwise specified.
    Reference genome options
     --fasta                       [string]  Path to FASTA human genome file.
-    --host                        [string]  Path to FASTA host genome file.
+    --host_fasta                        [string]  Path to FASTA host genome file.
+    --dbmeta                      [string]  Path for the MetaMaps database for read classification. [default: None]
    Generic options
     --basecall                    [boolean] In case fast5 is the input, that option shoud be true. Default is false.
     --model                       [string]  In case fast5 is the input, the guppy model for basecalling should be provide. [default:dna_r9.4.1_450bps_hac.cfg]
     --minLength                   [integer] Minimum length for a read to be analyzed. [default: 200]
     --minVirus                    [number]  Minimum virus data frequency in the raw data to be part of the output. [default: 0.001]
     --usegpu                      [boolean] In case fast5 is the input, the use of GPU Nvidia should be true.
-    --dbmeta                      [string]  Path for the MetaMaps database for read classification. [default: None]
     --pair                        [boolean] If barcodes were added at both sides of a read (true) or only at one side (false).
     --quality                     [integer] Minimum quality for a base to build the consensus [default: 7]
     --agreement                   [number]  Minimum base frequency to be called without ambiguity [default: 0.7]
     --depth                       [integer] Minimum depth of a position to build the consensus [default: 5]
     --front                       [integer] Number of bases to delete at 5 prime of the read [default: 0]
     --tail                        [integer] Number of bases to delete at 3 prime of the read [default: 0]
-    --rcoverage                   [string] Creation of coverage figures [default: false]
+    --rcoverage                   [string]  Coverage figures [default: false]
    ```
 
 **Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
