@@ -114,7 +114,7 @@ sample_name02,True,barcode02
    <!-- TODO nf-core: Update the example "typical command" below used to run the pipeline -->
 
    ```bash
-   nextflow run nf-core/metatropics --help
+   nextflow run nf-metatropics/ --help
    Input/output options
     --input                       [string]  Path to comma-separated file containing information about the samples in the experiment.
     --input_dir                   [string]  Input directory with fast5 [default: None]
