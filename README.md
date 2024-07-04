@@ -11,6 +11,22 @@ The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workfl
 ### Pipeline summary
 ![Figure](./nf-metatropics//Metatropics1.jpg)
 
+1. If input data if fast5 files, execute basecalling followed of demultiplexing with [`Guppy`] (https://nanoporetech.com/)
+2. With fastq (input or after demultiplexing), read QC ([`Nanoplot`](https://github.com/wdecoster/NanoPlot))
+3. Filter by quality and length ([`FASTP`](https://github.com/OpenGene/fastp))
+3. Present QC for raw and filtered reads ([`MultiQC`](http://multiqc.info/))
+4. Map reads agains host of the samples ([`Minimap2`](https://github.com/lh3/minimap2))
+5. Manipulate the previous mapping results to remove host reads ([`SAMtools`](http://www.htslib.org/))
+6. Classify reads against viral sequence DB (RefSEQ)([`MetaMaps`](https://github.com/DiltheyLab/MetaMaps))
+7. Calculate classification metrics create plots ([`R`](https://www.r-project.org/))
+8. Plot sample composition ([`Krona`](https://github.com/marbl/Krona/wiki))
+9. Extract reads classified for each virus ([`seqtk`](https://github.com/lh3/seqtk))
+10. Create BAM file for each virus ([`Medaka`](https://github.com/nanoporetech/medaka))
+11. Check depth and composition of each position of reference viral genome with sequence data ([`bamread-count`](https://github.com/genome/bam-readcount))
+12. Calculate sequencing depth for each virus ([`SAMtools`](http://www.htslib.org/))
+13. Create consensus sequence for each virus ([`ivar`](https://github.com/andersen-lab/ivar))
+14. Polish indels at the consensus sequence ([`Homopolish`](https://github.com/ythuang0522/homopolish))
+
 ### 1. Open metatropics pipeline
 ```
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
