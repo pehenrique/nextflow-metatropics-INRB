@@ -15,12 +15,9 @@ git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 
 ### 2. Download Databases
 
-```
-cd Databases
-```
-
 **Viral Refseq database**
 ```
+cd Databases
 wget https://zenodo.org/records/12518358/files/ViralRefseq.zip
 unzip ViralRefseq.zip 
 ```
@@ -38,11 +35,6 @@ unzip ViralRefseq.zip
 ```
 
 
-
-# Download complete Databases
-git lfs pull --include "Databases/Human.zip"
-unzip Databases/Human.zip
-unzip Databases/ViralRefseq.zip
 
 # Alternatively you can download both Human and ViralRefSeq database from
 # 1) Download Human Database
