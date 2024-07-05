@@ -68,6 +68,7 @@ include { REF_FASTA                   } from '../modules/local/ref_fasta'
 include { SEQTK_SUBSEQ                } from '../modules/nf-core/seqtk/subseq/main'
 include { REFFIX_FASTA                } from '../modules/local/reffix_fasta'
 include { MEDAKA                      } from '../modules/nf-core/medaka/main'
+include { ReadCount                   } from '../modules/local/reads/reads'
 include { RCOVERAGE                   } from '../modules/local/rcoverage/rcoverage'
 include { SAMTOOLS_COVERAGE           } from '../modules/nf-core/samtools/coverage/main'
 include { IVAR_CONSENSUS              } from '../modules/nf-core/ivar/consensus/main'
@@ -264,6 +265,9 @@ workflow METATROPICS {
     MEDAKA(
         SEQTK_SUBSEQ.out.sequences.join(REFFIX_FASTA.out.fixedseqref)
     )
+
+    // Run ReadCount process after MEDAKA
+    ReadCount(params.outdir, MEDAKA.out.coveragefiles.collect())
 
    // Conditional RCOVERAGE process
    if (params.rcoverage_figure) {
