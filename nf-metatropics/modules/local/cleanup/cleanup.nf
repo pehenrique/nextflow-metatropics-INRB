@@ -5,6 +5,7 @@ process CLEANUP {
     path versions_file
     path final_report
     val docker_enabled
+    path read_counts_csv
 
     script:
     """

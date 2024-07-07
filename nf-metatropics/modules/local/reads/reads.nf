@@ -1,10 +1,13 @@
 process ReadCount {
-    publishDir "${params.outdir}", mode: 'copy'
+    publishDir "${params.outdir}", mode: 'copy', saveAs: { filename ->
+        filename.endsWith('read_counts.csv') ? filename : null
+    }
+
     label 'process_high'
     tag "ReadCount"
 
-    container = 'rocker/tidyverse:latest' // This container includes R and many common libraries
-    containerOptions = "-v /data:/data -u \$(id -u):\$(id -g)" // without the option the command before the Rscript will not work!
+    container = 'rocker/tidyverse:latest'
+    containerOptions = "-v /data:/data -u \$(id -u):\$(id -g)"
 
     input:
     val outdir
@@ -13,37 +16,36 @@ process ReadCount {
     output:
     path "read_count/*.fastq.gz", emit: read_count_fastq_root
     path "read_count/**/*.fastq.gz", emit: read_count_fastq_nested
-    //path "read_counts.xlsx", emit: read_counts_excel
+    path "read_count/read_counts.csv", emit: read_counts_csv
 
     script:
     """
-    set -e  # Exit immediately if a command exits with a non-zero status
-    set -x  # Print commands and their arguments as they are executed
+    mkdir -p read_count read_count/nohuman read_count/nohost
 
-    mkdir -p read_count
-    mkdir -p read_count/nohuman
-    mkdir -p read_count/nohost
+    # Check if directories exist
+    for dir in fix fastp nohuman seqtk; do
+        if [ ! -d "${outdir}/\$dir" ]; then
+            echo "Directory ${outdir}/\$dir does not exist"
+        fi
+    done
 
-    echo "Current working directory: \$(pwd)"
-    echo "Contents of outdir: \$(ls -l ${outdir})"
-
-    ##Copy raw reads from 'fix' folder
+    # Copy raw reads from 'fix' folder
     find ${outdir}/fix -name "*.fastq.gz" -type f -exec cp {} read_count/ \\; || echo "Copy from fix folder failed"
 
-    ##Copy trimmed reads from 'fastp' folder
+    # Copy trimmed reads from 'fastp' folder
     find ${outdir}/fastp -name "*.fastq.gz" -type f -exec cp {} read_count/ \\; || echo "Copy from fastp folder failed"
 
-    ##Copy human-depleted reads from 'nohuman' folder
+    # Copy human-depleted reads from 'nohuman' folder
     find ${outdir}/nohuman -name '*other.fastq.gz' -type f -exec cp {} read_count/nohuman/ \\; || echo "Copy from nohuman folder failed"
 
-    ##Copy host-depleted reads from 'nohost' folder if it exists
+    # Copy host-depleted reads from 'nohost' folder if it exists
     if [ -d "${outdir}/nohost" ]; then
         find ${outdir}/nohost -name '*other.fastq.gz' -type f -exec cp {} read_count/nohost/ \\; || echo "Copy from nohost folder failed"
     else
         echo "nohost folder does not exist"
     fi
 
-    ##Process viral reads from 'seqtk' folder
+    # Process viral reads from 'seqtk' folder
     for file in ${outdir}/seqtk/*T1*classification_results.*.fastq.fq.gz; do
         if [ -f "\$file" ]; then
             base_name=\$(basename "\$file")
@@ -55,11 +57,8 @@ process ReadCount {
         fi
     done
 
-    echo "Contents of read_count directory:"
-    ls -lR read_count/
-
-    set +x  # Disable debugging
-
-    ##ReadCount.R
+    ReadCount.R ${params.outdir}/read_count/
     """
 }
+
+
