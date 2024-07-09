@@ -266,8 +266,15 @@ workflow METATROPICS {
         SEQTK_SUBSEQ.out.sequences.join(REFFIX_FASTA.out.fixedseqref)
     )
 
-    // Run ReadCount process after MEDAKA
-    ReadCount(params.outdir, MEDAKA.out.coveragefiles.collect())
+    // Define the host_genome_status
+    def host_genome_status = params.host_fasta ? 'used' : 'not_used'
+
+    // Call the ReadCount process
+    ReadCount(
+    params.outdir,
+    MEDAKA.out.coveragefiles.collect(),
+    host_genome_status
+    )
 
    // Conditional RCOVERAGE process
    if (params.rcoverage_figure) {

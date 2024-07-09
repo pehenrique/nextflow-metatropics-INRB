@@ -1,9 +1,11 @@
 process ReadCount {
-    publishDir "${params.outdir}", mode: 'copy', saveAs: { filename ->
-        filename.endsWith('read_counts.csv') ? filename : null
+    publishDir "${params.outdir}", mode: 'copy', overwrite: true, saveAs: { filename ->
+        if (filename.endsWith('read_counts.csv')) return filename
+        else if (filename.endsWith('read_distribution.pdf')) return filename
+        else null
     }
 
-    label 'process_high'
+    label 'process_medium'
     tag "ReadCount"
 
     container = 'rocker/tidyverse:latest'
@@ -12,11 +14,13 @@ process ReadCount {
     input:
     val outdir
     path medaka_files
+    val host_genome_status
 
     output:
     path "read_count/*.fastq.gz", emit: read_count_fastq_root
     path "read_count/**/*.fastq.gz", emit: read_count_fastq_nested
     path "read_count/read_counts.csv", emit: read_counts_csv
+    path "read_count/read_distribution.pdf", emit: read_distribution_pdf
 
     script:
     """

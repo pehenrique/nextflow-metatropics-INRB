@@ -3,8 +3,6 @@
 library(readr)
 library(dplyr)
 library(tidyr)
-library(ggplot2)
-library(tibble)
 
 # Set working directory to the 'read_count' folder
 setwd("read_count")
@@ -161,48 +159,4 @@ if (nrow(all_data) == 0) {
   
   cat("Data processing completed. Results written to read_counts.csv\n")
   print(all_data)
-
-# Create stacked bar plot
-  plot_data <- all_data %>%
-    rownames_to_column("sample") %>%
-    select(sample, ends_with("_pct")) %>%
-    pivot_longer(cols = -sample, names_to = "category", values_to = "percentage") %>%
-    mutate(category = sub("_pct$", "", category))
-
-  # Define the new order of categories, accounting for optional host category
-  if ("host_reads" %in% unique(plot_data$category)) {
-    category_order <- c("viral", "non_viral", "host_reads", "human_reads", "trimmed_reads")
-  } else {
-    category_order <- c("viral", "non_viral", "human_reads", "trimmed_reads")
-  }
-  plot_data$category <- factor(plot_data$category, levels = category_order)
-
-  # Create color palette
-  colors <- c("viral" = "#e78ac3", "non_viral" = "#a6d854", 
-              "host_reads" = "#8da0cb", "human_reads" = "#fc8d62", "trimmed_reads" = "#66c2a5")
-
-  # Create the plot with improved aesthetics, borders around bars, and adjusted margins
-  p <- ggplot(plot_data, aes(x = percentage, y = sample, fill = category)) +
-    geom_bar(stat = "identity", color = "black", size = 0.25) +
-    scale_fill_manual(values = colors, guide = guide_legend(reverse = TRUE)) +
-    theme_bw() +
-    theme(
-      axis.text.y = element_text(angle = 0, hjust = 1),
-      panel.border = element_rect(fill=NA, size=0.25),
-      legend.position = "bottom",
-      legend.title = element_blank(),
-      plot.margin = margin(t = 10, r = 20, b = 10, l = 20, unit = "pt")
-    ) +
-    labs(title = "Read Distribution by Sample",
-         x = "Percentage",
-         y = NULL) +
-    scale_x_continuous(labels = function(x) paste0(x, "%"), 
-                       breaks = seq(0, 100, 25),
-                       expand = c(0.01, 0)) +
-    coord_cartesian(clip = "off")
-
-  # Save the plot as PDF
-  ggsave("read_distribution.pdf", plot = p, width = 10, height = 8)
-
-  cat("Stacked bar plot saved as read_distribution.pdf\n")
 }
