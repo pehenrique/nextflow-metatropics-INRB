@@ -8,7 +8,7 @@
 # Nextflow-metatropics-INRB
 The metatropics pipeline is a [Nextflow](https://www.nextflow.io/)-driven workflow designed for viral identification and the creation of consensus genomes from nanopore (metagenomic) sequencing data. It leverages container systems like [Docker](https://www.docker.com) and [Singularity](https://sylabs.io/docs/), utilizing one container per process to avoid software dependency conflicts and simplifies maintainenance. This container-based approach ensures that installation is straightforward and results are highly reproducible. 
 
-### Pipeline summary
+### Pipeline summary on Linux
 
 ![Figure](./nf-metatropics//Metatropics.jpg)
 
@@ -22,8 +22,16 @@ git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ### 2. Install Nextflow
 Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
 ```
-curl -s https://get.nextflow.io | bash &&
-sudo mv nextflow /usr/local/bin/
+sudo apt-get update
+sudo apt-get install curl
+curl -s https://get.sdkman.io | bash
+Open a new terminal
+sdk install java 17.0.10-tem
+java -version
+curl -s https://get.nextflow.io | bash
+chmod +x nextflow
+sudo mv nextflow /usr/local/bin 
+nextflow info
 ```
 
 ### 3. Install container system
@@ -31,23 +39,11 @@ Install any of the following container systems [`Docker`](https://docs.sevenbrid
 
 Docker example:  
 ```
-sudo apt-get update
-sudo apt-get install curl
 curl -fsSL https://get.docker.com/ | sh
 sudo usermod -aG docker <your_username>
+sudo chmod 666 /var/run/docker.sock
 docker run hello-world
 sudo service docker restart
-```
-
-In case of using singularity, some containers need to be build:
-
-```
-cd nf-metatropics/images
-sudo singularity build R_plot.sif R_plot.txt
-sudo singularity build guppy.sif guppy.txt
-sudo singularity build homopolish.sif homopolish.txt
-sudo singularity build metamaps.sif metamaps.txt
-sudo singularity build samtools_minimap2.sif samtools_minimap2.txt
 ```
 
 ### 4. Download Databases 
