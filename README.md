@@ -25,7 +25,9 @@ Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#install
 sudo apt-get update
 sudo apt-get install curl
 curl -s https://get.sdkman.io | bash
+
 Open a new terminal
+
 sdk install java 17.0.10-tem
 java -version
 curl -s https://get.nextflow.io | bash
