@@ -129,17 +129,26 @@ create_dual_barcode_file() {
     echo "dual_barcode_TWIST.txt file has been created successfully in the ${nanoplexer_input_dir} directory."
 }
 
-# Function to concatenate FASTQ files
+# Function to concatenate and decompress FASTQ.gz files
 concatenate_fastq_files() {
     output_file="${input_dir}/allsamples.fastq"
     
-    echo "Concatenating FASTQ files..."
-    cat "${fastq_pass_dir}"/*.fastq > "$output_file"
+    echo "Concatenating and decompressing FASTQ.gz files..."
+    
+    # Check for .fastq.gz files
+    gz_count=$(ls -1 "${fastq_pass_dir}"/*.fastq.gz 2>/dev/null | wc -l)
+    
+    if [ "$gz_count" -gt 0 ]; then
+        zcat "${fastq_pass_dir}"/*.fastq.gz > "$output_file"
+    else
+        echo "Error: No .fastq.gz files found in ${fastq_pass_dir}"
+        exit 1
+    fi
     
     if [ -s "$output_file" ]; then
-        echo "All FASTQ files have been concatenated into $output_file in the Input directory."
+        echo "All FASTQ.gz files have been decompressed and concatenated into $output_file in the Input directory."
     else
-        echo "Error: Failed to concatenate FASTQ files or no FASTQ files found."
+        echo "Error: Failed to concatenate FASTQ.gz files or no FASTQ.gz files found."
         rm -f "$output_file"
         exit 1
     fi
@@ -174,3 +183,10 @@ process_csv
 create_dual_barcode_file
 concatenate_fastq_files
 run_nanoplexer
+
+# Clean up
+echo "Cleaning up temporary files..."
+rm -f "${input_dir}/allsamples.fastq"
+echo "Cleanup complete."
+
+echo "Script execution finished."
