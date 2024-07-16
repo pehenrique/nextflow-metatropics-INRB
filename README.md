@@ -19,7 +19,7 @@ For a more detailed description see [Metatropics description](https://github.com
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
-### 2. Install Nextflow
+### 2. Install Nextflow (and Java)
 Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
 ```
 sudo apt-get update
