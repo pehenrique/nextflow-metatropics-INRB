@@ -177,12 +177,12 @@ workflow METATROPICS {
         rmetaplot_ch
     )
 
-    KRONA_KRONADB();
+    //KRONA_KRONADB();
 
-    KRONA_KTIMPORTTAXONOMY(
-        METAMAPS_CLASSIFY.out.classkrona,
-        KRONA_KRONADB.out.db
-    )
+    //KRONA_KTIMPORTTAXONOMY(
+    //    METAMAPS_CLASSIFY.out.classkrona,
+    //    KRONA_KRONADB.out.db
+    //)
 
     reffasta_ch=(R_METAPLOT.out.reporttsv.join(METAMAPS_CLASSIFY.out.classem)).join(readsForMetamaps)
 
@@ -336,8 +336,8 @@ workflow METATROPICS {
     ch_versions = ch_versions.mix(METAMAPS_MAP.out.versions.first())
     ch_versions = ch_versions.mix(METAMAPS_CLASSIFY.out.versions.first())
     ch_versions = ch_versions.mix(R_METAPLOT.out.versions.first())
-    ch_versions = ch_versions.mix(KRONA_KRONADB.out.versions.first())
-    ch_versions = ch_versions.mix(KRONA_KTIMPORTTAXONOMY.out.versions.first())
+    //ch_versions = ch_versions.mix(KRONA_KRONADB.out.versions.first())
+    //ch_versions = ch_versions.mix(KRONA_KTIMPORTTAXONOMY.out.versions.first())
     ch_versions = ch_versions.mix(SEQTK_SUBSEQ.out.versions.first())
     ch_versions = ch_versions.mix(MEDAKA.out.versions.first())
     ch_versions = ch_versions.mix(SAMTOOLS_COVERAGE.out.versions.first())
@@ -369,15 +369,15 @@ workflow METATROPICS {
     ch_multiqc_files = ch_multiqc_files.mix(NANOPLOT.out.txt.collect{it[1]}.ifEmpty([]))
 
     // Check if Docker is enabled
-    docker_enabled = workflow.containerEngine == 'docker'
+    //docker_enabled = workflow.containerEngine == 'docker'
 
     // Run CLEANUP only if Docker was used
-    CLEANUP(
-        CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
-        FINAL_REPORT.out.finalReport,
-        docker_enabled,
-        ReadCount.out.read_counts_csv
-    )
+    //CLEANUP(
+    //    CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
+    //    FINAL_REPORT.out.finalReport,
+    //    docker_enabled,
+    //    ReadCount.out.read_counts_csv
+    //)
 }
 
 
