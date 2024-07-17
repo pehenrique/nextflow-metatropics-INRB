@@ -76,11 +76,11 @@ include { HOMOPOLISH_POLISHING        } from '../modules/local/homopolish/polish
 include { ADDING_DEPTH                } from '../modules/local/adding_depth'
 include { FINAL_REPORT                } from '../modules/local/final_report'
 include { BAM_READCOUNT               } from '../modules/local/bam/readcount'
-include { MAFFT_ALIGN                 } from '../modules/local/mafft/align'
-include { SNIPIT_SNPPLOT              } from '../modules/local/snipit/snpplot'
-include { SNP_COMPARE                 } from '../modules/local/snp/compare'
-include { MAFFT_ALIGN as MAFFT_TWO    } from '../modules/local/mafft/align'
-include { SNIPIT_SNPPLOT as SNIPIT_TWO } from '../modules/local/snipit/snpplot'
+//include { MAFFT_ALIGN                 } from '../modules/local/mafft/align'
+//include { SNIPIT_SNPPLOT              } from '../modules/local/snipit/snpplot'
+//include { SNP_COMPARE                 } from '../modules/local/snp/compare'
+//include { MAFFT_ALIGN as MAFFT_TWO    } from '../modules/local/mafft/align'
+//include { SNIPIT_SNPPLOT as SNIPIT_TWO } from '../modules/local/snipit/snpplot'
 include { CLEANUP		      } from '../modules/local/cleanup/cleanup.nf'
 
 /*
