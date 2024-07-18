@@ -155,8 +155,10 @@ Below one can see the output directories and their description. `guppy` and `gup
 
 # 9. Demultiplexing with TWIST
 
-Basecalling on Gridion --> obtain fastq_pass
-Fill in 'sample_names.csv'
-run 'demultiplexing_TWIST.sh' script to TWIST demultiplex data
+1. Basecalling on Gridion --> obtain fastq_pass
+2. Fill in 'sample_names.csv'
+3. Download nanoplexer demultiplexer (https://github.com/hanyue36/nanoplexer)
+4. run 'bqsh demultiplexing_TWIST.sh' script to TWIST demultiplex data
+5. Output in 'nanoplexer_output'
 
 
