@@ -52,7 +52,7 @@ sudo service docker restart
 This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases
 
 ```
-cd Databases
+cd nextflow-metatropics-INRB/Databases
 wget https://zenodo.org/records/12657225/files/combined_databases.tar.gz
 tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
