@@ -7,7 +7,7 @@ minLength: 200
 pair: true
 front: 18
 tail: 18
-minVirus: 0.001
+minVirus: 0.01
 quality: 20
 depth: 5
 agreement: 0.7
