@@ -152,3 +152,11 @@ Below one can see the output directories and their description. `guppy` and `gup
 25. [`rcoverage`] - PDF files including coverage figures of identified viruses  
 
 **Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (18), the final report (23), and the coverage figures (25).
+
+# 9. Demultiplexing with TWIST
+
+Basecalling on Gridion --> obtain fastq_pass
+Fill in 'sample_names.csv'
+run 'demultiplexing_TWIST.sh' script to TWIST demultiplex data
+
+
