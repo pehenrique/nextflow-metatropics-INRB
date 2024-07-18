@@ -58,13 +58,11 @@ tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
 
-### 5. Run pipeline
+### 5. Set PATHS
 
 **Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
 
 <u>The params.yaml file contains the most important paths:</u>
-
-#### 5.1 Set PATHS
 
 ```
 cd nextflow-metatropics-INRB
@@ -75,6 +73,99 @@ outdir: change to output PATH
 fasta: change to human genome file PATH
 dbmeta: change to ViralRefseq database PATH
 ```
+
+
+
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
+```
+
+### 2. Install Nextflow (and Java)
+Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
+```
+sudo apt-get update
+sudo apt-get install curl
+curl -s https://get.sdkman.io | bash
+
+Open a new terminal
+
+sdk install java 17.0.10-tem
+java -version
+curl -s https://get.nextflow.io | bash
+chmod +x nextflow
+sudo mv nextflow /usr/local/bin 
+nextflow info
+```
+
+### 3. Install container system
+Install any of the following container systems [`Docker`](https://docs.sevenbridges.com/docs/install-docker-on-linux), [`Singularity`](https://www.sylabs.io/guides/3.0/user-guide/), [`Podman`](https://podman.io/), [`Shifter`](https://nersc.gitlab.io/development/shifter/how-to-use/) or [`Charliecloud`](https://hpc.github.io/charliecloud/) for full pipeline reproducibility. 
+
+Docker example:  
+```
+curl -fsSL https://get.docker.com/ | sh
+sudo usermod -aG docker <your_username>
+sudo chmod 666 /var/run/docker.sock
+docker run hello-world
+sudo service docker restart
+```
+
+### 4. Download Databases 
+This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases
+
+```
+cd Databases
+wget https://zenodo.org/records/12657225/files/combined_databases.tar.gz
+tar -xzvf combined_databases.tar.gz
+rm combined_databases.tar.gz
+```
+
+### 5. Run pipeline
+
 
 
 
