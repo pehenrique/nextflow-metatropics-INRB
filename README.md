@@ -70,11 +70,11 @@ rm combined_databases.tar.gz
 cd nextflow-metatropics-INRB
 nano params.yml
 
-input: change to input PATH
+**input:** change to input PATH
 outdir: change to output PATH
 fasta: change to human genome file PATH
 dbmeta: change to ViralRefseq database PATH
-``
+```
 
 
 
