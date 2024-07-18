@@ -58,7 +58,7 @@ tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
 
-### 5. Set PATHS
+### 5. Set PATHs
 
 **Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
 
@@ -74,20 +74,29 @@ fasta: change to human genome file PATH
 dbmeta: change to ViralRefseq database PATH
 ```
 
+### 6. Set Input
 
+**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
+- For raw reads (FASTQ): (<u>use params.yml</u>)
+```
+The params.yaml file contains the most important paths
+sample,single_end,barcode
+sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fastq
+sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
+```
 
+- For squiggle data (FAST5/POD5): (<u>use params2.yml</u>)
+```
+sample,single_end,barcode
+sample_name01,True,barcode01
+sample_name02,True,barcode02
+```
 
-
-### 5. Run pipeline
-
-
-
-
+### 7. Runing pipeline
 
 ```
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 ```
-
 
    ```
    nextflow run nf-metatropics/ --help
@@ -114,22 +123,6 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --tail                        [integer] Number of bases to delete at 3 prime of the read [default: 0]
     --rcoverage                   [string]  Coverage figures [default: false]
    ```
-
-**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
-- For raw reads (FASTQ): (<u>use params.yml</u>)
-```
-The params.yaml file contains the most important paths
-sample,single_end,barcode
-sample_name01,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode01.fastq
-sample_name02,True,/home/antonio/metatropics/nf-metatropics/fastq/barcode02.fastq
-```
-
-- For squiggle data (FAST5/POD5): (<u>use params2.yml</u>)
-```
-sample,single_end,barcode
-sample_name01,True,barcode01
-sample_name02,True,barcode02
-```
 
 ### 6. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
