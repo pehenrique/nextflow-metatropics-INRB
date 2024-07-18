@@ -122,7 +122,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --rcoverage                   [string]  Coverage figures [default: false]
    ```
 
-### 6. Output
+### 8. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
 
 1. [`guppy`] - fastq files after the basecalling without being demultiplexed
