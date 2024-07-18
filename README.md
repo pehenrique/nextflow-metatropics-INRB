@@ -162,4 +162,4 @@ Below one can see the output directories and their description. `guppy` and `gup
       * conda install -c bioconda nanoplexer
       * nanoplexer -help
 4. run 'bash demultiplexing_TWIST.sh' script to TWIST demultiplex data
-5. Output in 'nanoplexer_output'
+5. Output in 'nanoplexer_output' (PS: write process option in pipeline for this later)
