@@ -60,13 +60,17 @@ rm combined_databases.tar.gz
 
 ### 5. Run pipeline
 
+**Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
+
+<u>The params.yaml file contains the most important paths:</u>
+
+
+
 ```
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
 ```
 
-**Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
 
-<u>The params.yaml file contains the most important paths:</u>
    ```
    nextflow run nf-metatropics/ --help
 
