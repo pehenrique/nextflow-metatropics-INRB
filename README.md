@@ -22,7 +22,7 @@ git config --global http.postBuffer 524288000
 git clone https://github.com/DaanJansen94/nextflow-metatropics-INRB.git
 ```
 
-### 2. Install Nextflow (and Java)
+### 2. Install Java and Nextflow
 Install [`Nextflow`](https://www.nextflow.io/docs/latest/getstarted.html#installation) (`>=22.10.1`)
 ```
 sudo apt-get install curl
