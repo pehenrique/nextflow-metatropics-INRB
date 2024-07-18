@@ -153,7 +153,7 @@ Below one can see the output directories and their description. `guppy` and `gup
 
 **Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (18), the final report (23), and the coverage figures (25).
 
-# 9. Demultiplexing with TWIST
+### 9. Demultiplexing with TWIST
 
 1. Basecalling on Gridion --> obtain fastq_pass
 2. Fill in 'sample_names.csv'
