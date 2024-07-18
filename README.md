@@ -64,6 +64,19 @@ rm combined_databases.tar.gz
 
 <u>The params.yaml file contains the most important paths:</u>
 
+#### 5.1 Set PATHS
+
+```
+cd nextflow-metatropics-INRB
+nano params.yml
+
+input: change to input PATH
+outdir: change to output PATH
+fasta: change to human genome file PATH
+dbmeta: change to ViralRefseq database PATH
+``
+
+
 
 
 ```
