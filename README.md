@@ -60,7 +60,11 @@ tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
 
-### 5. Set PATHs
+### 5. Resource Optimization
+
+
+
+### 6. Set PATHs
 
 **Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
 
@@ -74,7 +78,7 @@ fasta: change to human genome file PATH
 dbmeta: change to ViralRefseq database PATH
 ```
 
-### 6. Set Input
+### 7. Set Input
 
 **Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
 - For raw reads (FASTQ): (<u>use params.yml</u>)
@@ -92,7 +96,7 @@ sample_name01,True,barcode01
 sample_name02,True,barcode02
 ```
 
-### 7. Runing pipeline
+### 8. Runing pipeline
 
 ```
 nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
@@ -124,7 +128,7 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
     --rcoverage                   [string]  Coverage figures [default: false]
    ```
 
-### 8. Output
+### 9. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
 
 1. [`guppy`] - fastq files after the basecalling without being demultiplexed
@@ -153,7 +157,7 @@ Below one can see the output directories and their description. `guppy` and `gup
 
 **Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (18), the final report (23), and the coverage figures (25).
 
-### 9. Demultiplexing with TWIST
+### 10. Demultiplexing with TWIST (not applicable for tiling protocols)
 
 1. Basecalling on Gridion --> obtain fastq_pass
 2. Fill in 'sample_names.csv'
