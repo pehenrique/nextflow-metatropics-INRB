@@ -55,7 +55,7 @@ This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genome
 
 ```
 cd nextflow-metatropics-INRB/Databases
-wget https://zenodo.org/records/12771842/files/combined_databases.tar.gz
+wget -c https://zenodo.org/records/12771842/files/combined_databases.tar.gz
 tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
@@ -158,7 +158,7 @@ Below one can see the output directories and their description. `guppy` and `gup
 1. Basecalling on Gridion --> obtain fastq_pass
 2. Fill in 'sample_names.csv'
 3. Download nanoplexer demultiplexer (https://github.com/hanyue36/nanoplexer)
-4. run 'bqsh demultiplexing_TWIST.sh' script to TWIST demultiplex data
+4. run 'bash demultiplexing_TWIST.sh' script to TWIST demultiplex data
 5. Output in 'nanoplexer_output'
 
 
