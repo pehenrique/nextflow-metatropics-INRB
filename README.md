@@ -62,8 +62,6 @@ rm combined_databases.tar.gz
 
 **Note:** Use params.yaml file for processing from raw reads (FASTQ format) and switch to the params2.yml file when dealing with squiggles (FAST5/POD5 format).
 
-<u>The params.yaml file contains the most important paths:</u>
-
 ```
 cd nextflow-metatropics-INRB
 nano params.yml
