@@ -63,14 +63,14 @@ rm combined_databases.tar.gz
 ### 5. Resource Optimization
 **Note:** Allocate resources for enhanced computational efficiency. This version is optimized for a 64 GB RAM, 20-core Linux computer. If your computer is similar, use the default settings. If not, or if unsure, optimize accordingly:
 
-**Note:**: Determine resources
+**Note:** Determine resources
 
 ```
 free -h
 nproc
 ```
 
-**Note:**: Optimize resources by allocating the required process labels (single, low, medium, high)
+**Note:** Optimize resources by allocating the required process labels (single, low, medium, high)
 
 ```
 cd nextflow-metatropics-INRB/nf-metatropics/conf
