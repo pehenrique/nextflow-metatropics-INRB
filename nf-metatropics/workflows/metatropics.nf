@@ -57,6 +57,7 @@ include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from '../modules/nf-core/custom/dumpsoftwareversions/main'
 include { GUPPY_ONT                   } from '../modules/local/guppy/ont'
 include { GUPPYDEMULTI_DEMULTIPLEXING } from '../modules/local/guppydemulti/demultiplexing'
+include { RAREFACTION		      } from '../modules/local/rarefaction/rarefaction'
 include { FASTP                       } from '../modules/nf-core/fastp/main'
 include { NANOPLOT                    } from '../modules/nf-core/nanoplot/main'
 include { METAMAPS_MAP                } from '../modules/local/metamaps/map'
@@ -134,18 +135,34 @@ workflow METATROPICS {
         )
     }
 
+   // Define parameters for rarefaction
+   params.perform_rarefaction = false
+   params.target_bases = 1000000000 // Default value, can be overridden in the submission file
+
+   // Conditional execution of RAREFACTION
+   if (params.perform_rarefaction) {
+    RAREFACTION(
+        FIX.out.reads,
+        params.perform_rarefaction,
+        params.target_bases
+    )
+        ch_reads_for_fastp = RAREFACTION.out.rarefied_reads
+    } else {
+        ch_reads_for_fastp = FIX.out.reads
+    }
+
     fastp_save_trimmed_fail = false
     FASTP(
-        FIX.out.reads,
+        ch_reads_for_fastp,
         [],
         fastp_save_trimmed_fail,
         []
     )
 
     NANOPLOT(
-        FIX.out.reads
-    )
-   
+         FIX.out.reads
+     )
+
     HUMAN_MAPPING(
         FASTP.out.reads
     )
