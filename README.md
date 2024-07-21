@@ -55,7 +55,7 @@ This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genome
 
 ```
 cd nextflow-metatropics-INRB/Databases
-wget -c https://zenodo.org/records/12771842/files/combined_databases.tar.gz
+wget -c https://zenodo.org/records/12790937/files/combined_databases.tar.gz
 tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
