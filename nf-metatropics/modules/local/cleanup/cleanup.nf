@@ -4,7 +4,7 @@ process CLEANUP {
     input:
     path versions_file
     path final_report
-    path read_counts_csv
+    //path read_counts_csv
     
     script:
     """
