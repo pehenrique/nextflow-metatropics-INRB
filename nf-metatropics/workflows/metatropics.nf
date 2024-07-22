@@ -389,8 +389,8 @@ workflow METATROPICS {
     if (params.enable_docker_cleanup) {
         CLEANUP(
             CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
-            FINAL_REPORT.out.finalReport,
-            ReadCount.out.read_counts_csv
+            FINAL_REPORT.out.finalReport//,
+            //ReadCount.out.read_counts_csv
         )
     }
 }
