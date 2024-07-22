@@ -5,7 +5,7 @@ process SAMTOOLS_hFASTQ {
     conda "bioconda::samtools=1.17"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/samtools:1.17--h00cdaf9_0' :
-        'daanjansen94/samtools' }"
+        'daanjansen94/samtools:v1.17' }"
 
     input:
     tuple val(meta), path(input)
