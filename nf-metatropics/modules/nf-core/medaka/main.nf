@@ -4,7 +4,7 @@ process MEDAKA {
     conda "bioconda::medaka=1.4.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/medaka:1.4.4--py38h130def0_0' :
-        'daanjansen94/medaka' }"
+        'daanjansen94/medaka:v1.4.3 }"
 
     input:
     tuple val(meta), path(reads), path(assembly)
