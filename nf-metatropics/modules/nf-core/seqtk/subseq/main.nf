@@ -5,7 +5,7 @@ process SEQTK_SUBSEQ {
     conda "bioconda::seqtk=1.3"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/seqtk:1.3--h5bf99c6_3' :
-        'daanjansen94/seqtk' }"
+        'daanjansen94/seqtk:v1.3' }"
 
     input:
     tuple val(meta), path (sequences), path (filter_list)
