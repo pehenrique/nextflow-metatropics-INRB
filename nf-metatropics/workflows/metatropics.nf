@@ -287,11 +287,11 @@ workflow METATROPICS {
     def host_genome_status = params.host_fasta ? 'used' : 'not_used'
 
     // Call the ReadCount process
-    //ReadCount(
-    //params.outdir,
-    //MEDAKA.out.coveragefiles.collect(),
-    //host_genome_status
-    //)
+    ReadCount(
+    params.outdir,
+    MEDAKA.out.coveragefiles.collect(),
+    host_genome_status
+    )
 
    // Conditional RCOVERAGE process
    if (params.rcoverage_figure) {
@@ -389,8 +389,8 @@ workflow METATROPICS {
     if (params.enable_docker_cleanup) {
         CLEANUP(
             CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
-            FINAL_REPORT.out.finalReport//,
-            //ReadCount.out.read_counts_csv
+            FINAL_REPORT.out.finalReport,
+            ReadCount.out.read_counts_csv
         )
     }
 }
