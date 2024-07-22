@@ -4,7 +4,7 @@ process GUPPY_ONT {
     // Select container based on container engine
     container "${ workflow.containerEngine == 'singularity' ?
         '$projectDir/images/guppy.sif' :
-        'daanjansen94/guppy' }"
+        'daanjansen94/guppy:v6.5.7' }"
 
     // Set container options for Docker and Singularity
     containerOptions {
