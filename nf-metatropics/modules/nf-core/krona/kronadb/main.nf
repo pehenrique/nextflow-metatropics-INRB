@@ -6,7 +6,7 @@ process KRONA_KRONADB {
     conda "bioconda::krona=2.7.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/krona:2.7.1--pl526_5' :
-        'daanjansen94/krona:latest' }"
+        'daanjansen94/krona:v2.7.1' }"
 
     output:
     path 'taxonomy/taxonomy.tab', emit: db
