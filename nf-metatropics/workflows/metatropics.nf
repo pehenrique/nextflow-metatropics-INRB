@@ -385,18 +385,15 @@ workflow METATROPICS {
     ch_multiqc_files = ch_multiqc_files.mix(FASTP.out.json.collect{it[1]}.ifEmpty([]))
     ch_multiqc_files = ch_multiqc_files.mix(NANOPLOT.out.txt.collect{it[1]}.ifEmpty([]))
 
-    // Check if Docker is enabled
-    //docker_enabled = workflow.containerEngine == 'docker'
-
-    // Run CLEANUP only if Docker was used
-    //CLEANUP(
-    //    CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
-    //    FINAL_REPORT.out.finalReport,
-    //    docker_enabled,
-    //    ReadCount.out.read_counts_csv
-    //)
+    // Run CLEANUP only if Docker cleanup is enabled
+    if (params.enable_docker_cleanup) {
+        CLEANUP(
+            CUSTOM_DUMPSOFTWAREVERSIONS.out.versions,
+            FINAL_REPORT.out.finalReport,
+            ReadCount.out.read_counts_csv
+        )
+    }
 }
-
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
