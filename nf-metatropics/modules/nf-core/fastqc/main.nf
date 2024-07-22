@@ -5,7 +5,7 @@ process FASTQC {
     conda "bioconda::fastqc=0.11.9"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/fastqc:0.11.9--0' :
-        'daanjansen94/fastqc' }"
+        'daanjansen94/fastqc:v0.11.9' }"
 
     input:
     tuple val(meta), path(reads)
