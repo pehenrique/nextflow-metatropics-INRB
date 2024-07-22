@@ -1,7 +1,7 @@
 process RAREFACTION {
     tag "$meta.id"
     label 'process_low'
-    container "nanozoo/bbmap:38.86--9ebcbfa"
+    container "daanjansen94/bbmap:38.86"
 
     input:
     tuple val(meta), path(reads)
