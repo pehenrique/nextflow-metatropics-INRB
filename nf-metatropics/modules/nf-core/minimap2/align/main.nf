@@ -6,7 +6,7 @@ process MINIMAP2_ALIGN {
     conda "bioconda::minimap2=2.24 bioconda::samtools=1.14"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/mulled-v2-66534bcbb7031a148b13e2ad42583020b9cd25c4:1679e915ddb9d6b4abda91880c4b48857d471bd8-0' :
-        'daanjansen94/minimap' }"
+        'daanjansen94/minimap:v2.28' }"
 
     input:
     tuple val(meta), path(reads)
