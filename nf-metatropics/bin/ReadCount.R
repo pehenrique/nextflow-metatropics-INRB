@@ -71,8 +71,11 @@ host_depleted_reads <- if (dir.exists("nohost")) {
   data.frame(sample = character(), host_depleted = numeric())
 }
 
-viral_reads <- count_and_create_df("_viral_reads\\.fastq\\.gz$")
-if (nrow(viral_reads) > 0) viral_reads <- viral_reads %>% rename(viral = count)
+# Read viral reads from CSV file
+viral_reads <- read.csv("viral_read_counts.csv", header = TRUE, stringsAsFactors = FALSE)
+colnames(viral_reads) <- c("sample", "viral")
+viral_reads$sample <- sapply(viral_reads$sample, extract_sample_name)
+rownames(viral_reads) <- viral_reads$sample
 
 all_data <- Reduce(function(x, y) full_join(x, y, by = "sample"),
                    list(raw_reads, trimmed_reads, human_depleted_reads, host_depleted_reads, viral_reads))
@@ -161,14 +164,14 @@ if (nrow(all_data) == 0) {
   
   cat("Data processing completed. Results written to read_counts.csv\n")
   print(all_data)
-
-# Create stacked bar plot
+  
+  # Create stacked bar plot
   plot_data <- all_data %>%
     rownames_to_column("sample") %>%
     select(sample, ends_with("_pct")) %>%
     pivot_longer(cols = -sample, names_to = "category", values_to = "percentage") %>%
     mutate(category = sub("_pct$", "", category))
-
+  
   # Define the new order of categories, accounting for optional host category
   if ("host_reads" %in% unique(plot_data$category)) {
     category_order <- c("viral", "non_viral", "host_reads", "human_reads", "trimmed_reads")
@@ -176,11 +179,11 @@ if (nrow(all_data) == 0) {
     category_order <- c("viral", "non_viral", "human_reads", "trimmed_reads")
   }
   plot_data$category <- factor(plot_data$category, levels = category_order)
-
+  
   # Create color palette
   colors <- c("viral" = "#e78ac3", "non_viral" = "#a6d854", 
               "host_reads" = "#8da0cb", "human_reads" = "#fc8d62", "trimmed_reads" = "#66c2a5")
-
+  
   # Create the plot with improved aesthetics, borders around bars, and adjusted margins
   p <- ggplot(plot_data, aes(x = percentage, y = sample, fill = category)) +
     geom_bar(stat = "identity", color = "black", size = 0.25) +
@@ -200,9 +203,9 @@ if (nrow(all_data) == 0) {
                        breaks = seq(0, 100, 25),
                        expand = c(0.01, 0)) +
     coord_cartesian(clip = "off")
-
+  
   # Save the plot as PDF
   ggsave("read_distribution.pdf", plot = p, width = 10, height = 8)
-
+  
   cat("Stacked bar plot saved as read_distribution.pdf\n")
 }
