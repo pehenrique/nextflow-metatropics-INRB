@@ -15,8 +15,8 @@ for (file in files) {
   # Read the data
   data <- read.table(file, header = FALSE)
   
-  # Extract sample name from file name
-  sample_name <- sub("(.*)_T1\\.NC_.*", "\\1", file)
+  # Extract sample name from file name (including NC number)
+  sample_name <- sub("(.*)_T1\\.(NC_[0-9]+)_.*", "\\1_\\2", file)
   
   # Assign column names
   colnames(data) <- c("reference", "position", "depth")
@@ -69,7 +69,6 @@ create_plot <- function(data, group_number) {
 # Group samples and create plots
 sample_names <- unique(combined_data_binned$name)
 num_groups <- ceiling(length(sample_names) / 10)
-
 for (i in 1:num_groups) {
   start_index <- (i - 1) * 10 + 1
   end_index <- min(i * 10, length(sample_names))
