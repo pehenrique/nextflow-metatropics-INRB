@@ -1,7 +1,8 @@
 process MEDAKA {
     tag "${meta.id}.${meta.virus}"
     label 'process_medium'
-    conda "bioconda::medaka=1.4.4"
+ 
+   conda "bioconda::medaka=1.4.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/medaka:1.4.4--py38h130def0_0' :
         'daanjansen94/medaka:v1.4.3' }"
@@ -35,24 +36,33 @@ process MEDAKA {
             mv calls_to_ref.bam.bai ${prefix}.sorted.bam.bai
             rm -f medaka.vcf
             samtools depth -a ${prefix}.sorted.bam > ${prefix}.sorted.bam.coverage.txt
+            
+            # Calculate genome coverage
+            total_bases=\$(wc -l < ${prefix}.sorted.bam.coverage.txt)
+            covered_bases=\$(awk '{if (\$3 > 0) count++} END {print count}' ${prefix}.sorted.bam.coverage.txt)
+            coverage_percent=\$(awk "BEGIN {print (\$covered_bases / \$total_bases) * 100}")
+            
+            # Check if coverage is less than 20%
+            if (( \$(echo "\$coverage_percent < 20" | bc -l) )); then
+                echo "Coverage (\$coverage_percent%) is below 20%. Removing coverage file."
+                rm ${prefix}.sorted.bam.coverage.txt
+            else
+                echo "Coverage: \$coverage_percent%"
+            fi
         else
             echo "Medaka processing failed for ${prefix}. Creating empty output files." >&2
             touch ${prefix}.vcf
             touch ${prefix}.sorted.bam
             touch ${prefix}.sorted.bam.bai
-            touch ${prefix}.sorted.bam.coverage.txt
         fi
     else
         echo "Assembly file is empty or contains no sequences for ${prefix}. Creating empty output files." >&2
         touch ${prefix}.vcf
         touch ${prefix}.sorted.bam
         touch ${prefix}.sorted.bam.bai
-        touch ${prefix}.sorted.bam.coverage.txt
     fi
-
     # Remove empty files
     find . -type f -empty -delete
-
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         medaka: \$( medaka --version 2>&1 | sed 's/medaka //g' )
