@@ -1,8 +1,7 @@
 process MEDAKA {
     tag "${meta.id}.${meta.virus}"
     label 'process_medium'
- 
-   conda "bioconda::medaka=1.4.4"
+
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/medaka:1.4.4--py38h130def0_0' :
         'daanjansen94/medaka:v1.4.3' }"
@@ -30,24 +29,26 @@ process MEDAKA {
             -i $reads \\
             -r $assembly \\
             -o ./
+
         if [ \$? -eq 0 ]; then
             mv medaka.annotated.vcf ${prefix}.vcf
             mv calls_to_ref.bam ${prefix}.sorted.bam
             mv calls_to_ref.bam.bai ${prefix}.sorted.bam.bai
             rm -f medaka.vcf
-            samtools depth -a ${prefix}.sorted.bam > ${prefix}.sorted.bam.coverage.txt
-            
-            # Calculate genome coverage
-            total_bases=\$(wc -l < ${prefix}.sorted.bam.coverage.txt)
-            covered_bases=\$(awk '{if (\$3 > 0) count++} END {print count}' ${prefix}.sorted.bam.coverage.txt)
-            coverage_percent=\$(awk "BEGIN {print (\$covered_bases / \$total_bases) * 100}")
-            
-            # Check if coverage is less than 20%
-            if (( \$(echo "\$coverage_percent < 20" | bc -l) )); then
-                echo "Coverage (\$coverage_percent%) is below 20%. Removing coverage file."
-                rm ${prefix}.sorted.bam.coverage.txt
+
+            # Calculate genome size from BAM file
+            genome_size=\$(samtools view -H ${prefix}.sorted.bam | grep -P '^@SQ' | cut -f 3 -d ':' | awk '{sum += \$1} END {print sum}')
+
+            # Calculate genome coverage (counting bases covered 5 or more times)
+            covered_bases=\$(samtools depth -a ${prefix}.sorted.bam | awk '\$3 >= 5' | wc -l)
+            coverage_percent=\$(awk "BEGIN {printf \\"%.2f\\", (\$covered_bases / \$genome_size) * 100}")
+
+            # Check if coverage is less than 50%
+            if (( \$(echo "\$coverage_percent < 50" | bc -l) )); then
+                echo "Coverage (\${coverage_percent}%) is below 50%. Skipping depth calculation."
             else
-                echo "Coverage: \$coverage_percent%"
+                echo "Coverage: \${coverage_percent}%"
+                samtools depth -a ${prefix}.sorted.bam > ${prefix}.sorted.bam.coverage.txt
             fi
         else
             echo "Medaka processing failed for ${prefix}. Creating empty output files." >&2
@@ -61,11 +62,14 @@ process MEDAKA {
         touch ${prefix}.sorted.bam
         touch ${prefix}.sorted.bam.bai
     fi
+
     # Remove empty files
     find . -type f -empty -delete
+
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        medaka: \$( medaka --version 2>&1 | sed 's/medaka //g' )
+        medaka: \$(medaka --version 2>&1 | sed 's/medaka //g')
+        samtools: \$(samtools --version | sed '1!d; s/samtools //')
     END_VERSIONS
     """
 }
