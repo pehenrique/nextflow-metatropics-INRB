@@ -93,7 +93,7 @@ dbmeta: change to ViralRefseq database PATH
 
 ### 7. Set Input
 
-**Note:** The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
+**Note:** Ensure that your input FASTQ reads are consolidated into a single file, rather than being spread across multiple files within a folder like barcode01/fastq. The format of the `mpox.csv` [Input](https://github.com/DaanJansen94/nextflow-metatropics-INRB/tree/main/Input) file differs based on your starting data:
 - For raw reads (FASTQ): (<u>use params.yml</u>)
 ```
 The params.yaml file contains the most important paths
@@ -108,8 +108,6 @@ sample,single_end,barcode
 sample_name01,True,barcode01
 sample_name02,True,barcode02
 ```
-
-Ensure that your input FASTQ reads are consolidated into a single file, rather than being spread across multiple files within a folder like barcode01/fastq.
 
 ### 8. Runing pipeline
 
