@@ -179,6 +179,7 @@ Below one can see the output directories and their description. `guppy` and `gup
 **Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (20), the final report (22), the coverage (24) and read distribution figures (25). 
 
 Tip 1: If you have limited space, you can delete the 'work' directory and, after selecting the necessary output files, also remove the 'output' directory.
+
 Tip 2: When you encounter errors, make sure to double-check the memory allocated to your processes. This is often the cause, or alternatively, consider including rarefaction.
 
 ### 10. Demultiplexing with TWIST (not applicable for tiling protocols)
