@@ -215,7 +215,7 @@ nanoplexer -help
 4. Run the demultiplexing script
 
 ```
-cd nextflow-metatropics-INRB/Input
+cd nextflow-metatropics-INRB/Input/TWIST_nanoplexer
 bash demultiplexing_TWIST.sh
 ```
 
