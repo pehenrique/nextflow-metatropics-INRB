@@ -172,7 +172,8 @@ Below one can see the output directories and their description. `guppy` and `gup
 19. [`addingDepth`] - table report for each virus in each sample
 23. [`final`] - final table report for all the run
 24. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
-25. [`rcoverage`] - PDF files including coverage figures of identified viruses  
+25. [`rcoverage`] - PDF files including coverage figures of identified viruses
+26. [`read_count`] - PDF and CSV files representing read distribution. These figures visualize the distribution of all reads, including trimmed, human, viral, and other reads.
 
 **Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (18), the final report (23), and the coverage figures (25).
 
