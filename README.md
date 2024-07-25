@@ -153,29 +153,30 @@ Below one can see the output directories and their description. `guppy` and `gup
 1. [`guppy`] - fastq files after the basecalling without being demultiplexed
 2. [`guppydemulti`] - directories and fastq files produced after the demultiplexing
 3. [`fix`] - gziped fastq files for each sample of the run
-3. [`fastp`] - results after trimming analysis performed by FASTP
-4. [`nanoplot`] - quality results for the sequencing data just after demultiplexing
-5. [`minimap2`] - BAM files about mapping against host genome
-6. [`nohuman`] - gziped fastq files without reads mapping to human genome
-7. [`nohost`] - gziped fastq files without reads mapping to host genome (-optional)
-8. [`metamaps`] - results from both steps of Metamaps execution for read classification (mapDirectly and Classify)
-9. [`r`] - intermediate table report and graphical PDF report for each sample
-10. [`ref`] - header of the reads and fasta reference genomes for each virus found for each sample
-11. [`krona`] - HTML files for each sample with interactive composition pie chart
-12. [`reffix`] - fasta refence genomes with fixed header for each virus found during the run
-13. [`seqtk`] - gziped fastq file for each set of read classified to a virus for each sample
-14. [`medaka`] - BAM file for each virus with mapping results from the virus genome reference for each sample
-15. [`samtools`] - mapping statistics calculated to BAM files present in the `medaka` directory
-16. [`ivar`] - consensus sequences produced for each virus found in each sample
-17. [`bam`] - detailed statistics for the BAM files from `medaka` directory for each position of virus refence genome
-18. [`homopolish`] - consensus sequence for each virus in each sample polished for the indel variations
-19. [`addingDepth`] - table report for each virus in each sample
-23. [`final`] - final table report for all the run
-24. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
-25. [`rcoverage`] - PDF files including coverage figures of identified viruses
-26. [`read_count`] - PDF and CSV files representing read distribution. These figures visualize the distribution of all reads, including trimmed, human, viral, and other reads.
+4. [`rarefaction`] - gziped fastq files for each rarefied sample
+5. [`fastp`] - results after trimming analysis performed by FASTP
+6. [`nanoplot`] - quality results for the sequencing data just after demultiplexing
+7. [`minimap2`] - BAM files about mapping against host genome
+8. [`nohuman`] - gziped fastq files without reads mapping to human genome
+9. [`nohost`] - gziped fastq files without reads mapping to host genome (-optional)
+10. [`metamaps`] - results from both steps of Metamaps execution for read classification (mapDirectly and Classify)
+11. [`r`] - intermediate table report and graphical PDF report for each sample
+12. [`ref`] - header of the reads and fasta reference genomes for each virus found for each sample
+13. [`krona`] - HTML files for each sample with interactive composition pie chart
+14. [`reffix`] - fasta refence genomes with fixed header for each virus found during the run
+15. [`seqtk`] - gziped fastq file for each set of read classified to a virus for each sample
+16. [`medaka`] - BAM file for each virus with mapping results from the virus genome reference for each sample
+17. [`samtools`] - mapping statistics calculated to BAM files present in the `medaka` directory
+18. [`ivar`] - consensus sequences produced for each virus found in each sample
+19. [`bam`] - detailed statistics for the BAM files from `medaka` directory for each position of virus refence genome
+20. [`homopolish`] - consensus sequence for each virus in each sample polished for the indel variations
+21. [`addingDepth`] - table report for each virus in each sample
+22. [`final`] - final table report for all the run
+23. [`pipeline_info`] - reports on the execution of the pipeline produced by NextFlow
+24. [`rcoverage`] - PDF files including coverage figures of identified viruses
+25. [`read_count`] - PDF and CSV files representing read distribution. These figures visualize the distribution of all reads, including trimmed, human, viral, and other reads.
 
-**Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (18), the final report (23), and the coverage figures (25).
+**Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (20), the final report (22), the coverage (24) and read distribution figures (25).
 
 ### 10. Demultiplexing with TWIST (not applicable for tiling protocols)
 When viral-capture probes were used for positive enrichment of viruses in the samples, the barcodes attached to the sequences differ from the standard ONT barcodes. As a result, manual demultiplexing is necessary until we develop an additional module for the Metatropics pipeline. To perform manual demultiplexing:
