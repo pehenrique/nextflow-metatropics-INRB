@@ -173,17 +173,18 @@ Below one can see the output directories and their description. `guppy` and `gup
 ### 10. Demultiplexing with TWIST (not applicable for tiling protocols)
 When viral-capture probes were used for positive enrichment of viruses in the samples, the barcodes attached to the sequences differ from the standard ONT barcodes. As a result, manual demultiplexing is necessary until we develop an additional module for the Metatropics pipeline. To perform manual demultiplexing:
 
-1. Perform basecalling on ONT device (eg., GridION) without demultiplexing. You will obtain a folder called fastq_pass with all raw reads.
+1. Perform basecalling on the ONT device (e.g., GridION) without demultiplexing. This will generate a folder called fastq_pass containing all raw reads.
 
-2. Complete required input for demultiplexing
+2. Prepare the required input for demultiplexing:
 
 ```
 cd nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input
-  - Complete 'sample_names.csv' by filling in Sample_names and Well_ID of TWIST plate used
-  - Copy 'fastq_pass' from GridION to 'nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input'
 ```
 
-3. If not done yet, download nanoplexer demultiplexer using conda (https://github.com/hanyue36/nanoplexer)
+- Fill in 'sample_names.csv' with the Sample_names and Well_ID of the TWIST plate used.
+- Copy the 'fastq_pass' folder from the GridION to nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input.
+
+3. If not already done, download the nanoplexer demultiplexer using conda (https://github.com/hanyue36/nanoplexer):
    
 ```
 conda config --add channels bioconda
@@ -191,11 +192,11 @@ conda install -c bioconda nanoplexer
 nanoplexer -help
 ```
 
-4. Run demultiplexing script
+4. Run the demultiplexing script
 
 ```
 cd nextflow-metatropics-INRB/Input
 bash demultiplexing_TWIST.sh
 ```
 
-5. Demultiplexed reads are placed in 'nanoplexer_output'
+5. The demultiplexed reads will be placed in the nanoplexer_output folder.
