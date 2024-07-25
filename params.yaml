@@ -18,4 +18,4 @@ perform_rarefaction: true # Preferably rarefy to a reasonable number of input to
 target_bases: 500000000
 
 # Cleanup module
-enable_docker_cleanup: true
+enable_docker_cleanup: false
