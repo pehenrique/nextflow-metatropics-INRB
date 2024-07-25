@@ -181,7 +181,15 @@ When viral-capture probes were used for positive enrichment of viruses in the sa
 cd nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input
 ```
 
-- Fill in 'sample_names.csv' with the Sample_names and Well_ID of the TWIST plate used.
+- Fill in 'sample_names.csv' with the Sample_names and Well_ID of the TWIST plate used. For example:
+
+```
+Sample_Name,Well_ID
+1271C_T,D_A01
+1301C_T,D_B01
+1272C_T,D_C01
+```
+
 - Copy the 'fastq_pass' folder from the GridION to nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input.
 
 3. If not already done, download the nanoplexer demultiplexer using conda (https://github.com/hanyue36/nanoplexer):
