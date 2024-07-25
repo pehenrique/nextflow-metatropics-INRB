@@ -142,8 +142,10 @@ nextflow run nf-metatropics/ -profile docker -params-file params.yaml -resume
    Rarefaction options
     --perform_rarefaction         [boolean] Option to perform rarefaction to a specified number of bases [default: false]
     --target_bases                [number]  Number of bases to which you want to rarefy each sample [default: 1 billion bases, equivalent to 500,000 reads of 2kb each]
-
+   Docker cleanup 
+    --enable_docker_cleanup       [boolean] Removes all downloaded Docker images to free up root space [default: false]
    ```
+**Note:** If internet access is unavailable, disable the docker cleanup option to retain images after the initial download, allowing the pipeline to run without internet access.
 
 ### 9. Output
 Below one can see the output directories and their description. `guppy` and `guppydemulti` will exist only in case the user has used FAST5 files as input.
