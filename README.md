@@ -174,9 +174,15 @@ Below one can see the output directories and their description. `guppy` and `gup
 When viral-capture probes were used for positive enrichment of viruses in the samples, the barcodes attached to the sequences differ from the standard ONT barcodes. As a result, manual demultiplexing is necessary until we develop an additional module for the Metatropics pipeline. To perform manual demultiplexing:
 
 1. Perform basecalling on ONT device (eg., GridION) without demultiplexing. You will obtain a folder called fastq_pass with all raw reads.
-2. Navigate to 'nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input'
-   - Complete 'sample_names.csv' by filling in Sample_names and Well_ID of TWIST plate used
-   - Copy 'fastq_pass' from GridION to 'nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input'
+
+2. Complete required input for demultiplexing
+
+```
+cd nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input
+  - Complete 'sample_names.csv' by filling in Sample_names and Well_ID of TWIST plate used
+  - Copy 'fastq_pass' from GridION to 'nextflow-metatropics-INRB/Input/TWIST_nanoplexer/Input'
+```
+
 3. If not done yet, download nanoplexer demultiplexer using conda (https://github.com/hanyue36/nanoplexer)
    
 ```
