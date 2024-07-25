@@ -176,7 +176,7 @@ Below one can see the output directories and their description. `guppy` and `gup
 24. [`rcoverage`] - PDF files including coverage figures of identified viruses
 25. [`read_count`] - PDF and CSV files representing read distribution. These figures visualize the distribution of all reads, including trimmed, human, viral, and other reads.
 
-**Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (20), the final report (22), the coverage (24) and read distribution figures (25).
+**Note:** For the INRB mpox analysis, the most important files are the polished consensus sequences (20), the final report (22), the coverage (24) and read distribution figures (25). If you have limited space, you can delete the 'work' directory and, after selecting the necessary files, also remove the 'output' directory.
 
 ### 10. Demultiplexing with TWIST (not applicable for tiling protocols)
 When viral-capture probes were used for positive enrichment of viruses in the samples, the barcodes attached to the sequences differ from the standard ONT barcodes. As a result, manual demultiplexing is necessary until we develop an additional module for the Metatropics pipeline. To perform manual demultiplexing:
