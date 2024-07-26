@@ -39,21 +39,29 @@ for (file in files) {
 # Combine all data frames
 combined_data <- do.call(rbind, data_list)
 
-# Bin the data and calculate average depth
+# Set bin size (change this value to adjust binning)
+bin_size <- 50
+
+# Calculate average depth with binning
 combined_data_binned <- combined_data %>%
-  mutate(bin_start = floor(position / 50) * 50) %>%
+  mutate(bin_start = floor(position / bin_size) * bin_size) %>%
   group_by(name, bin_start) %>%
   summarise(avg_depth = mean(log_depth), .groups = 'drop')
+
+# Uncomment the following lines and comment out the above if you want to use position without binning
+# combined_data_binned <- combined_data %>%
+#   group_by(name, position) %>%
+#   summarise(avg_depth = mean(log_depth), .groups = 'drop')
 
 # Calculate log10(5)
 log_5 <- log10(5)
 
 # Function to create and save plot for a group of samples
 create_plot <- function(data, group_number) {
-  p <- ggplot(data, aes(x = bin_start, y = avg_depth)) +
+  p <- ggplot(data, aes(x = bin_start, y = avg_depth)) +  # Use 'position' instead of 'bin_start' if not binning
     geom_line(color = "#057215") +
     geom_segment(data = subset(data, avg_depth < log_5),
-                 aes(xend = bin_start, y = 0, yend = -0.3),
+                 aes(xend = bin_start, y = 0, yend = -0.3),  # Use 'position' instead of 'bin_start' if not binning
                  color = "darkred", alpha = 1, linewidth = 0.2) +
     geom_hline(yintercept = log_5, linetype = "dashed", color = "black") +
     theme_bw() +
@@ -68,10 +76,10 @@ create_plot <- function(data, group_number) {
 
 # Group samples and create plots
 sample_names <- unique(combined_data_binned$name)
-num_groups <- ceiling(length(sample_names) / 10)
+num_groups <- ceiling(length(sample_names) / 9)
 for (i in 1:num_groups) {
-  start_index <- (i - 1) * 10 + 1
-  end_index <- min(i * 10, length(sample_names))
+  start_index <- (i - 1) * 9 + 1
+  end_index <- min(i * 9, length(sample_names))
   group_samples <- sample_names[start_index:end_index]
   
   group_data <- combined_data_binned %>%
