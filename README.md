@@ -51,11 +51,20 @@ sudo service docker restart
 ```
 
 ### 4. Download Databases 
-This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases
+This includes: i) Viral Refseq, ii) Human genome and iii) Mosquito (host) genomes databases. You can choose to perform metagenomic analyses using the metagenomic database or conduct targeted mpox analyses using the mpox DB.
 
+**Choice 1: metagenomic database**
 ```
 cd nextflow-metatropics-INRB/Databases
-wget -c https://zenodo.org/records/12790937/files/combined_databases.tar.gz
+wget -c https://zenodo.org/records/13132915/files/combined_databases.tar.gz # metagenomic Database
+tar -xzvf combined_databases.tar.gz
+rm combined_databases.tar.gz
+```
+
+**Choice 2: mpox database** 
+```
+cd nextflow-metatropics-INRB/Databases
+wget -c https://zenodo.org/records/12790937/files/combined_databases.tar.gz # mpox database
 tar -xzvf combined_databases.tar.gz
 rm combined_databases.tar.gz
 ```
