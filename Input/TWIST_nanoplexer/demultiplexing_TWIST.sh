@@ -132,32 +132,53 @@ create_dual_barcode_file() {
 # Updated function to concatenate and decompress FASTQ.gz files with reduced output
 concatenate_fastq_files() {
     output_file="${input_dir}/allsamples.fastq"
-    
-    echo "Concatenating and decompressing FASTQ.gz files..."
-    
+    echo "Concatenating and processing FASTQ files..."
+
     # Check for .fastq.gz files
     gz_files=("${fastq_pass_dir}"/*.fastq.gz)
-    gz_count=${#gz_files[@]}
-    
-    if [ "$gz_count" -gt 0 ]; then
-        echo "Found $gz_count .fastq.gz files. Processing..."
-        
-        # Use gunzip -c instead of zcat, with reduced output
-        for file in "${gz_files[@]}"; do
-            gunzip -c "$file" >> "$output_file" 2>/dev/null
-            if [ $? -ne 0 ]; then
-                echo "Error processing file: $file"
-            fi
-        done
+    gz_count=0
+    if [ -e "${gz_files[0]}" ]; then
+        gz_count=${#gz_files[@]}
+    fi
+
+    # Check for .fastq files
+    fastq_files=("${fastq_pass_dir}"/*.fastq)
+    fastq_count=0
+    if [ -e "${fastq_files[0]}" ]; then
+        fastq_count=${#fastq_files[@]}
+    fi
+
+    if [ "$gz_count" -gt 0 ] || [ "$fastq_count" -gt 0 ]; then
+        echo "Found $gz_count .fastq.gz files and $fastq_count .fastq files. Processing..."
+
+        # Process .fastq.gz files
+        if [ "$gz_count" -gt 0 ]; then
+            for file in "${gz_files[@]}"; do
+                gunzip -c "$file" >> "$output_file" 2>/dev/null
+                if [ $? -ne 0 ]; then
+                    echo "Error processing file: $file"
+                fi
+            done
+        fi
+
+        # Process .fastq files
+        if [ "$fastq_count" -gt 0 ]; then
+            for file in "${fastq_files[@]}"; do
+                cat "$file" >> "$output_file" 2>/dev/null
+                if [ $? -ne 0 ]; then
+                    echo "Error processing file: $file"
+                fi
+            done
+        fi
     else
-        echo "Error: No .fastq.gz files found in ${fastq_pass_dir}"
+        echo "Error: No .fastq.gz or .fastq files found in ${fastq_pass_dir}"
         exit 1
     fi
-    
+
     if [ -s "$output_file" ]; then
-        echo "All FASTQ.gz files have been decompressed and concatenated into $output_file"
+        echo "All FASTQ files have been processed and concatenated into $output_file"
     else
-        echo "Error: Failed to concatenate FASTQ.gz files or no FASTQ.gz files found."
+        echo "Error: Failed to concatenate FASTQ files or no valid files found."
         rm -f "$output_file"
         exit 1
     fi
